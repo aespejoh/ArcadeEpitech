@@ -5,7 +5,7 @@ project(globalProject)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/libs)
-add_subdirectory(core)
 add_subdirectory(ncurses)
 add_subdirectory(sdl)
 add_subdirectory(sfml)
+add_subdirectory(core)
