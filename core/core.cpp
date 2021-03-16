@@ -20,9 +20,10 @@ void Core::loadlib(const std::string& lib_path)
     dlerror();
     func = (fptr)dlsym(handle, "create");
     lib = (IDisplayModule*)func();
-    if (dlclose(handle) != 0)
-        exit(84);
     _libs.push_back(lib);
+    //if (dlclose(handle) != 0)
+    //    exit(84);
+
 }
 
 const std::vector<IDisplayModule *> &Core::getLibs() const
