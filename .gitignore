@@ -3,3 +3,7 @@
 /lib/libsdl.so
 /lib/libsfml.so
 /boostrap
+/lib/arcade_ncurses.so
+/lib/arcade_sdl2.so
+/lib/arcade_sfml.so
+/arcade

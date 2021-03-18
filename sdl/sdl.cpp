@@ -10,11 +10,6 @@ extern "C" IDisplayModule* create()
     return new LibSDL();
 }
 
-void hello()
-{
-    std::cout << "Hello, World!" << std::endl;
-}
-
 void LibSDL::init()
 {
     SDL_Window* window = nullptr;
