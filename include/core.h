@@ -10,6 +10,8 @@
 #include <vector>
 #include "iDisplayModule.hpp"
 #include <dlfcn.h>
+#include <Utils.hpp>
+#include <Exception.hpp>
 
 class Core {
     public:
