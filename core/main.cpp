@@ -1,7 +1,7 @@
 #include <iostream>
 #include <core.h>
 
-int main()
+int main(int ac, char **av)
 {
     int i;
     Core core;

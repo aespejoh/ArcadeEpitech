@@ -5,7 +5,7 @@
 ** Created by aespejo,
 */
 
-#include "../include/core.h"
+#include "core.h"
 
 void Core::loadlib(const std::string& lib_path)
 {
