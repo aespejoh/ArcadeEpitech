@@ -10,6 +10,15 @@ class LibSDL : public IDisplayModule {
     LibSDL() = default;
     ~LibSDL() override = default;
 
+    bool isActive() override;
+
+    void refresh() override;
+
+    char getInput() override;
+
+    void printLevel(char **array, unsigned int height, unsigned int width
+    ) override;
+
     private:
     void init() override;
     void stop() override;

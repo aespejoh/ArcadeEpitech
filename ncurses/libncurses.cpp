@@ -29,3 +29,23 @@ const std::string &Libncurses::getName() const
 {
     return _name;
 }
+
+bool Libncurses::isActive()
+{
+    return false;
+}
+
+void Libncurses::refresh()
+{
+}
+
+char Libncurses::getInput()
+{
+    return 0;
+}
+
+void Libncurses::printLevel(char **array, unsigned int height,
+    unsigned int width
+)
+{
+}

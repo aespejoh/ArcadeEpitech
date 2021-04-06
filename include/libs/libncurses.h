@@ -11,6 +11,15 @@ class Libncurses : public IDisplayModule {
     Libncurses() = default;
     ~Libncurses() override = default;
 
+    bool isActive() override;
+
+    void refresh() override;
+
+    char getInput() override;
+
+    void printLevel(char **array, unsigned int height, unsigned int width
+    ) override;
+
     private:
     void init() override;
     void stop() override;

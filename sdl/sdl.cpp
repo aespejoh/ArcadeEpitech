@@ -48,3 +48,21 @@ const std::string &LibSDL::getName() const
 {
     return _name;
 }
+
+bool LibSDL::isActive()
+{
+    return false;
+}
+
+void LibSDL::refresh()
+{
+}
+
+char LibSDL::getInput()
+{
+    return 0;
+}
+
+void LibSDL::printLevel(char **array, unsigned int height, unsigned int width)
+{
+}
