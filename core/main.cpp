@@ -22,13 +22,7 @@ int main(int ac, char **av)
         return 84;
     }
     try {
-        int i;
-        Core core;
-        core.loadlib("./lib/arcade_sfml.so", av[1]);
-        core.loadlib("./lib/arcade_sdl2.so", av[1]);
-        core.loadlib("./lib/arcade_ncurses.so", av[1]);
-        core.setActiveGfx(av[1]);
-        core.getActiveGfx()->init();
+        Core core(av[1]);
         core.getActiveGfx()->printLevel(game.getArray(),10, 10);
     } catch (MainException &exception) {
         std::cout << "Error: " << exception.what();
