@@ -11,7 +11,19 @@ class Libncurses : public IDisplayModule {
     Libncurses() = default;
     ~Libncurses() override = default;
 
-    private:
+    bool isActive() override;
+
+    void refresh() override;
+
+    char getInput() override;
+
+    void printLevel(char **array, unsigned int height, unsigned int width
+    ) override;
+    void initMenu() override;
+    void initWindow() override;
+    bool getQuit() override;
+
+private:
     void init() override;
     void stop() override;
     const std::string &getName() const override;

@@ -37,3 +37,33 @@ const std::string &LibSFML::getName() const
 {
     return _name;
 }
+
+bool LibSFML::isActive()
+{
+    return false;
+}
+
+void LibSFML::refresh()
+{
+}
+
+char LibSFML::getInput()
+{
+    return 0;
+}
+
+void LibSFML::printLevel(char **array, unsigned int height, unsigned int width)
+{
+}
+
+void LibSFML::initMenu() {
+
+}
+
+void LibSFML::initWindow() {
+
+}
+
+bool LibSFML::getQuit() {
+    return false;
+}
