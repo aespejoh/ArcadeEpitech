@@ -5,7 +5,17 @@
 ** Created by aespejo,
 */
 
-#include "../include/core.h"
+#include "core.h"
+
+Core::Core(char **av)
+{
+    loadlibs();
+    _i = getNumLib(av[1]);
+    if (_i >= 0 && _i <= 2)
+        _lib = getLibs()[_i];
+    _lib->initWindow();
+    gameLoop();
+}
 
 void Core::loadlib(const std::string& lib_path)
 {
@@ -29,4 +39,54 @@ void Core::loadlib(const std::string& lib_path)
 const std::vector<IDisplayModule *> &Core::getLibs() const
 {
     return _libs;
+}
+
+void Core::loadlibs()
+{
+    loadlib("./lib/arcade_sfml.so");
+    loadlib("./lib/arcade_sdl2.so");
+    loadlib("./lib/arcade_ncurses.so");
+}
+
+int Core::getNumLib(char *libPath)
+{
+    int i = 3;
+
+    if (std::strcmp(libPath, "lib/arcade_sfml.so") == 0)
+        i = 0;
+    else if(std::strcmp(libPath, "lib/arcade_sdl2.so") == 0)
+        i = 1;
+    else if (std::strcmp(libPath, "lib/arcade_ncurses.so") == 0)
+        i = 2;
+    return i;
+}
+
+void Core::gameLoop()
+{
+    while (!_lib->getQuit()) {
+        _lib->initMenu();
+        _key = _lib->getInput();
+        sepEvents();
+    }
+    _lib->stop();
+}
+
+void Core::sepEvents()
+{
+    if (_key == KEYUP) {
+        _i += 1;
+        if (_i > 2)
+            _i = 0;
+        _lib->stop();
+        _lib = getLibs()[_i];
+        _lib->init();
+    }
+    if (_key == KEYDOWN) {
+        _i -= 1;
+        if (_i > 2)
+            _i = 0;
+        _lib->stop();
+        _lib = getLibs()[_i];
+        _lib->init();
+    }
 }
