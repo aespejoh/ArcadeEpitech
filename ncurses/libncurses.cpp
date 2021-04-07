@@ -44,8 +44,13 @@ char Libncurses::getInput()
     return 0;
 }
 
-void Libncurses::printLevel(char **array, unsigned int height,
+void Libncurses::printLevel(array_t array, unsigned int height,
     unsigned int width
 )
 {
+}
+
+Libncurses::Libncurses()
+{
+    _name = "ncurses";
 }

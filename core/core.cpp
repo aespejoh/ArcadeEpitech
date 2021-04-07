@@ -7,7 +7,7 @@
 
 #include "core.h"
 
-void Core::loadlib(const std::string& lib_path)
+void Core::loadlib(const std::string& lib_path, const std::string& active_path)
 {
     IDisplayModule *lib;
     typedef IDisplayModule* (*fptr)();
@@ -20,6 +20,8 @@ void Core::loadlib(const std::string& lib_path)
     dlerror();
     func = (fptr)dlsym(handle, "create");
     lib = (IDisplayModule*)func();
+    if (lib_path == active_path)
+        _activeGfx = lib;
     _libs.push_back(lib);
     //if (dlclose(handle) != 0)
     //    exit(84);
@@ -29,4 +31,19 @@ void Core::loadlib(const std::string& lib_path)
 const std::vector<IDisplayModule *> &Core::getLibs() const
 {
     return _libs;
+}
+
+void Core::setActiveGfx(std::string libPath)
+{
+
+}
+
+Core::Core()
+{
+    _activeGfx = nullptr;
+}
+
+IDisplayModule *Core::getActiveGfx() const
+{
+    return _activeGfx;
 }

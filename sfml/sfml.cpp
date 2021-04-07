@@ -14,19 +14,16 @@ extern "C" IDisplayModule* create()
 
 void LibSFML::init()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    _window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "");
 
-    while (window.isOpen()) {
+    //while (_window->isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event))
+        while (_window->pollEvent(event))
             if (event.type == sf::Event::Closed)
-                window.close();
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+                _window->close();
+        _window->clear();
+        _window->display();
+    //}
 }
 
 void LibSFML::stop()
@@ -52,6 +49,62 @@ char LibSFML::getInput()
     return 0;
 }
 
-void LibSFML::printLevel(char **array, unsigned int height, unsigned int width)
+void LibSFML::printLevel(array_t array, unsigned int height, unsigned int width)
 {
+    _block_type.insert(std::make_pair('7', &LibSFML::drawBlackSquare));
+    _block_type.insert(std::make_pair('0', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('1', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('2', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('3', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('4', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('5', &LibSFML::drawWhiteSquare));
+    _block_type.insert(std::make_pair('8', &LibSFML::drawRedSquare));
+    int x = 0;
+    int y = 0;
+    for (auto &i: array) {
+        for (auto &e : i) {
+            auto it = _block_type.find(e);
+            if (it == _block_type.end())
+                continue;
+            (this->*it->second)(x, y);
+            x += 10;
+        }
+        x = 0;
+        y += 10;
+    }
+}
+
+LibSFML::LibSFML()
+{
+    _name = "sfml";
+    _window = nullptr;
+}
+
+void LibSFML::drawBlackSquare(int x, int y)
+{
+    sf::RectangleShape cell;
+    cell.setSize(sf::Vector2f(10,10));
+    cell.setFillColor(sf::Color::Black);
+    cell.setPosition(x, y);
+    _window->draw(cell);
+}
+
+void LibSFML::drawWhiteSquare(int x, int y)
+{
+    sf::RectangleShape cell;
+    cell.setSize(sf::Vector2f(10,10));
+    cell.setFillColor(sf::Color::White);
+    cell.setPosition(x, y);
+    _window->draw(cell);
+
+}
+
+void LibSFML::drawRedSquare(int x, int y)
+{
+    sf::RectangleShape cell;
+    cell.setSize(sf::Vector2f(10,10));
+    cell.setFillColor(sf::Color::Red);
+    cell.setPosition(x, y);
+    _window->draw(cell);
+
 }

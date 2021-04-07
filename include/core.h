@@ -13,16 +13,23 @@
 #include <Utils.hpp>
 #include <Exception.hpp>
 
+#define NCURSES_PATH "./lib/arcade_ncurses.so"
+#define SFML_PATH "./lib/arcade_sfml.so"
+#define SDL2_PATH "./lib/arcade_sdl2.so"
+
 class Core {
     public:
-        Core() = default;
+        Core();
         ~Core() = default;
-        void loadlib(const std::string&);
-
-    const std::vector<IDisplayModule *> &getLibs() const;
+        const std::vector<IDisplayModule *> &getLibs() const;
+        void setActiveGfx(std::string libPath);
+        void loadlib(const std::string &lib_path, const std::string &active_path);
+        IDisplayModule *getActiveGfx() const;
 
     private:
+        IDisplayModule *_activeGfx;
         std::vector<IDisplayModule*> _libs;
+
 };
 
 #endif //GLOBALPROJECT_CORE_H

@@ -63,6 +63,11 @@ char LibSDL::getInput()
     return 0;
 }
 
-void LibSDL::printLevel(char **array, unsigned int height, unsigned int width)
+void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
 {
+}
+
+LibSDL::LibSDL()
+{
+    _name = "sdl";
 }

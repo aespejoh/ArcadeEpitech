@@ -7,7 +7,7 @@
 
 class LibSDL : public IDisplayModule {
     public:
-    LibSDL() = default;
+    LibSDL();
     ~LibSDL() override = default;
 
     bool isActive() override;
@@ -16,7 +16,7 @@ class LibSDL : public IDisplayModule {
 
     char getInput() override;
 
-    void printLevel(char **array, unsigned int height, unsigned int width
+    void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
 
     private:

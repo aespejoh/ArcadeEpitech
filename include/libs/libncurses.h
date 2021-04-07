@@ -8,7 +8,7 @@ void hello();
 
 class Libncurses : public IDisplayModule {
     public:
-    Libncurses() = default;
+    Libncurses();
     ~Libncurses() override = default;
 
     bool isActive() override;
@@ -17,7 +17,7 @@ class Libncurses : public IDisplayModule {
 
     char getInput() override;
 
-    void printLevel(char **array, unsigned int height, unsigned int width
+    void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
 
     private:

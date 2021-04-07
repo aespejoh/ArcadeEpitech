@@ -11,9 +11,11 @@
 #include "iDisplayModule.hpp"
 
 class LibSFML : public IDisplayModule {
+    typedef void (LibSFML::*fnc_ptr)(int x, int y);
+    typedef std::map<char, fnc_ptr> map_t;
     public:
-        LibSFML() = default;;
-        ~LibSFML() override = default;;
+        LibSFML();
+        ~LibSFML() override = default;
 
     bool isActive() override;
 
@@ -21,13 +23,19 @@ class LibSFML : public IDisplayModule {
 
     char getInput() override;
 
-    void printLevel(char **array, unsigned int height, unsigned int width
+    void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
 
     private:
     void init() override;
     void stop() override;
     const std::string &getName() const override;
+    sf::RenderWindow *_window;
+    map_t _block_type;
+        void drawBlackSquare(int x, int y);
+        void drawWhiteSquare(int x, int y);
+        void drawRedSquare(int x, int y);
+    //void init(const array_t& array);
 };
 
 #endif //GLOBALPROJECT_SFML_H
