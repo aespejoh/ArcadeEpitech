@@ -43,9 +43,7 @@ Core::Core(std::string lib)
     loadlib("./lib/arcade_sfml.so", lib);
     loadlib("./lib/arcade_sdl2.so", lib);
     loadlib("./lib/arcade_ncurses.so", lib);
-    setActiveGfx(lib);
     getActiveGfx()->init();
-    _activeGfx = nullptr;
 }
 
 IDisplayModule *Core::getActiveGfx() const
