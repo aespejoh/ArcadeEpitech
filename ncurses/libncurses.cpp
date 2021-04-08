@@ -17,6 +17,7 @@ void Libncurses::init()
     initscr();
     printw("Welcome to NCurses!");
     noecho();
+    keypad(stdscr, TRUE);
     refresh();
     endwin();
 }
@@ -43,10 +44,14 @@ char Libncurses::getInput()
 {
     int ch = getch();
 
-    if (ch == KEY_RIGHT)
-        printw("KEY RIGHTHTHTHT");
-    if (ch == KEY_LEFT)
-        printw("KEY LEFTTTT");
+    if (ch == KEY_UP) {
+        printw("KEYYYY UPOOOO");
+        return KEYUP;
+    }
+    if (ch == KEY_DOWN) {
+        printw("KEYYYY DOWNNNOOO");
+        return KEYDOWN;
+    }
 }
 
 void Libncurses::printLevel(array_t array, unsigned int height,
