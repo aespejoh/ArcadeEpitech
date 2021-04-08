@@ -8,3 +8,5 @@
 /lib/arcade_sfml.so
 /arcade
 /lib/arcade_nibbler.so
+/.idea/
+/cmake-build-release/
