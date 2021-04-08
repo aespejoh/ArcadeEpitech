@@ -39,7 +39,7 @@ class Core {
         std::vector<IDisplayModule*> _libs;
         std::vector<IGame*> _games;
         char _key;
-        int _i;
+        unsigned int _i;
 };
 
 #endif //GLOBALPROJECT_CORE_H

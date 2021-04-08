@@ -47,12 +47,12 @@ void Player::move()
 
 void Player::moveUP()
 {
-    _y++;
+    _y--;
 }
 
 void Player::moveDOWN()
 {
-    _y--;
+    _y++;
 }
 
 void Player::moveLEFT()

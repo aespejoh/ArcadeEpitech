@@ -19,6 +19,7 @@ void Libncurses::init()
     noecho();
     keypad(stdscr, TRUE);
     refresh();
+    curs_set(0);
     endwin();
 }
 
@@ -43,7 +44,6 @@ void Libncurses::refresh()
 char Libncurses::getInput()
 {
     int ch = getch();
-
     if (ch == KEY_UP) {
         printw("KEYYYY UPOOOO");
         return KEYUP;
@@ -61,10 +61,6 @@ void Libncurses::printLevel(array_t array, unsigned int height,
 }
 
 void Libncurses::initMenu() {
-
-}
-
-void Libncurses::initWindow() {
 
 }
 

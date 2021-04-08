@@ -87,8 +87,9 @@ void Core::gameLoop()
 {
     _activeGfx->init();
     while (!_activeGfx->getQuit()) {
-        _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
         _key = _activeGfx->getInput();
+        _activeGame->update(_key);
+        _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
         sepEvents();
         _activeGfx->refresh();
     }

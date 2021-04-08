@@ -26,7 +26,6 @@ class IDisplayModule {
         virtual void printLevel(array_t array, unsigned int height, unsigned int width) = 0;
 
         virtual void initMenu() = 0;
-        virtual void initWindow() = 0;
         virtual bool getQuit() = 0;
     protected:
         std::string _name;

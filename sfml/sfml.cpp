@@ -51,6 +51,14 @@ char LibSFML::getInput()
                 return KEYUP;
             if (event.key.code == sf::Keyboard::Down)
                 return KEYDOWN;
+            if (event.key.code == sf::Keyboard::W)
+                return 'w';
+            if (event.key.code == sf::Keyboard::S)
+                return 's';
+            if (event.key.code == sf::Keyboard::A)
+                return 'a';
+            if (event.key.code == sf::Keyboard::D)
+                return 'd';
         }
     }
 }
@@ -65,7 +73,7 @@ void LibSFML::printLevel(array_t array, unsigned int height, unsigned int width)
     _block_type.insert(std::make_pair('3', &LibSFML::drawWhiteSquare));
     _block_type.insert(std::make_pair('4', &LibSFML::drawWhiteSquare));
     _block_type.insert(std::make_pair('5', &LibSFML::drawWhiteSquare));
-    _block_type.insert(std::make_pair('8', &LibSFML::drawRedSquare));
+    _block_type.insert(std::make_pair('A', &LibSFML::drawRedSquare));
     int x = 0;
     int y = 0;
     for (auto &i: array) {
@@ -117,10 +125,6 @@ void LibSFML::drawRedSquare(int x, int y)
 }
 
 void LibSFML::initMenu()
-{
-}
-
-void LibSFML::initWindow()
 {
 }
 

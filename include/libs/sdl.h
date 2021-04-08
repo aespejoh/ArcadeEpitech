@@ -18,7 +18,6 @@ public:
     void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
     void initMenu() override;
-    void initWindow() override;
     bool getQuit() override;
 
 private:

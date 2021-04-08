@@ -53,3 +53,25 @@ void SnakeGame::printMap()
         std::cout << std::endl;
     }
 }
+
+void SnakeGame::update(char input)
+{
+    auto it = movement_Input.find(input);
+    if (it != movement_Input.end()) {
+        std::cout << input << std::endl;
+        put(getPlayer()->getY(), getPlayer()->getX(), EMPTY_SPACE);
+        getPlayer()->setDirection(it->second);
+        getPlayer()->move();
+        put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
+        printMap();
+    }
+}
+
+SnakeGame::SnakeGame()
+{
+    _player = new Player;
+    movement_Input.insert(std::make_pair('w', 1));
+    movement_Input.insert(std::make_pair('a', 3));
+    movement_Input.insert(std::make_pair('s', 2));
+    movement_Input.insert(std::make_pair('d', 4));
+}
