@@ -23,15 +23,14 @@
 
 class Core {
     public:
-        Core(std::string);
+        Core(const std::string&);
         ~Core() = default;
         const std::vector<IDisplayModule *> &getLibs() const;
-        void setActiveGfx(std::string libPath);
         void loadlib(const std::string &lib_path, const std::string &active_path);
         void loadgame(const std::string &game_path);
         IDisplayModule *getActiveGfx() const;
         const std::vector<IGame *> &getGames() const;
-        int getNumLib(char *);
+        int getNumLib(const char *);
         void gameLoop();
         void sepEvents();
 
@@ -39,8 +38,6 @@ class Core {
         IDisplayModule *_activeGfx;
         std::vector<IDisplayModule*> _libs;
         std::vector<IGame*> _games;
-
-        IDisplayModule *_lib;
         char _key;
         int _i;
 };

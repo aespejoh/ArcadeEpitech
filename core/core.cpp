@@ -33,17 +33,16 @@ const std::vector<IDisplayModule *> &Core::getLibs() const
     return _libs;
 }
 
-void Core::setActiveGfx(std::string libPath)
+Core::Core(const std::string& lib)
 {
-
-}
-
-Core::Core(std::string lib)
-{
+    _i = getNumLib(lib.c_str());
+    _key = 0;
+    _activeGfx = nullptr;
     loadlib("./lib/arcade_sfml.so", lib);
     loadlib("./lib/arcade_sdl2.so", lib);
     loadlib("./lib/arcade_ncurses.so", lib);
-    getActiveGfx()->init();
+    getActiveGfx()->initWindow();
+    gameLoop();
 }
 
 IDisplayModule *Core::getActiveGfx() const
@@ -74,27 +73,25 @@ const std::vector<IGame *> &Core::getGames() const
     return _games;
 }
 
-int Core::getNumLib(char *libPath)
+int Core::getNumLib(const char *libPath)
 {
-    int i = 3;
-
-    if (std::strcmp(libPath, "lib/arcade_sfml.so") == 0)
-        i = 0;
-    else if(std::strcmp(libPath, "lib/arcade_sdl2.so") == 0)
-        i = 1;
-    else if (std::strcmp(libPath, "lib/arcade_ncurses.so") == 0)
-        i = 2;
-    return i;
+    if (std::strcmp(libPath, "./lib/arcade_sfml.so") == 0)
+        return 0;
+    else if(std::strcmp(libPath, "./lib/arcade_sdl2.so") == 0)
+        return 1;
+    else if (std::strcmp(libPath, "./lib/arcade_ncurses.so") == 0)
+        return 2;
+    return 3;
 }
 
 void Core::gameLoop()
 {
-    while (!_lib->getQuit()) {
-        _lib->initMenu();
-        _key = _lib->getInput();
+    while (!_activeGfx->getQuit()) {
+        _activeGfx->initMenu();
+        _key = _activeGfx->getInput();
         sepEvents();
     }
-    _lib->stop();
+    _activeGfx->stop();
 }
 
 void Core::sepEvents()
@@ -103,16 +100,16 @@ void Core::sepEvents()
         _i += 1;
         if (_i > 2)
             _i = 0;
-        _lib->stop();
-        _lib = getLibs()[_i];
-        _lib->init();
+        _activeGfx->stop();
+        _activeGfx = getLibs()[_i];
+        _activeGfx->init();
     }
     if (_key == KEYDOWN) {
         _i -= 1;
         if (_i > 2)
             _i = 0;
-        _lib->stop();
-        _lib = getLibs()[_i];
-        _lib->init();
+        _activeGfx->stop();
+        _activeGfx = getLibs()[_i];
+        _activeGfx->init();
     }
 }
