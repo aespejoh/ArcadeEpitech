@@ -14,12 +14,12 @@
 #include <dlfcn.h>
 #include <Utils.hpp>
 #include <Exception.hpp>
+#include <Utils.hpp>
+#include <Exception.hpp>
 
 #define NCURSES_PATH "./lib/arcade_ncurses.so"
 #define SFML_PATH "./lib/arcade_sfml.so"
 #define SDL2_PATH "./lib/arcade_sdl2.so"
-#include <Utils.hpp>
-#include <Exception.hpp>
 
 class Core {
     public:
@@ -33,9 +33,9 @@ class Core {
         int getNumLib(const char *);
         void gameLoop();
         void sepEvents();
-
     private:
         IDisplayModule *_activeGfx;
+        IGame *_activeGame;
         std::vector<IDisplayModule*> _libs;
         std::vector<IGame*> _games;
         char _key;

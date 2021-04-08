@@ -59,5 +59,5 @@ void Libncurses::initWindow() {
 }
 
 bool Libncurses::getQuit() {
-    return false;
+    return _quit;
 }

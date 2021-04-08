@@ -38,11 +38,11 @@ Core::Core(const std::string& lib)
     _i = getNumLib(lib.c_str());
     _key = 0;
     _activeGfx = nullptr;
-    loadlib("./lib/arcade_sfml.so", lib);
-    loadlib("./lib/arcade_sdl2.so", lib);
-    loadlib("./lib/arcade_ncurses.so", lib);
-    getActiveGfx()->initWindow();
-    gameLoop();
+    loadlib(SFML_PATH, lib);
+    loadlib(SDL2_PATH, lib);
+    loadlib(NCURSES_PATH, lib);
+    loadgame("./lib/arcade_nibbler.so");
+    _activeGame->loadMap();
 }
 
 IDisplayModule *Core::getActiveGfx() const
@@ -52,7 +52,7 @@ IDisplayModule *Core::getActiveGfx() const
 
 void Core::loadgame(const std::string &game_path)
 {
-    IGame *lib;
+    IGame *game;
     typedef IGame* (*fptr)();
     fptr func;
     void *handle = dlopen(game_path.c_str(), RTLD_LAZY);
@@ -62,10 +62,9 @@ void Core::loadgame(const std::string &game_path)
     }
     dlerror();
     func = (fptr)dlsym(handle, "create");
-    lib = (IGame*)func();
-    _games.push_back(lib);
-    //if (dlclose(handle) != 0)
-    //    exit(84);
+    game = (IGame*)func();
+    _activeGame = game;
+    _games.push_back(game);
 }
 
 const std::vector<IGame *> &Core::getGames() const
@@ -75,21 +74,23 @@ const std::vector<IGame *> &Core::getGames() const
 
 int Core::getNumLib(const char *libPath)
 {
-    if (std::strcmp(libPath, "./lib/arcade_sfml.so") == 0)
+    if (std::strcmp(libPath, SFML_PATH) == 0)
         return 0;
-    else if(std::strcmp(libPath, "./lib/arcade_sdl2.so") == 0)
+    else if(std::strcmp(libPath, SDL2_PATH) == 0)
         return 1;
-    else if (std::strcmp(libPath, "./lib/arcade_ncurses.so") == 0)
+    else if (std::strcmp(libPath, NCURSES_PATH) == 0)
         return 2;
     return 3;
 }
 
 void Core::gameLoop()
 {
+    _activeGfx->init();
     while (!_activeGfx->getQuit()) {
-        _activeGfx->initMenu();
+        _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
         _key = _activeGfx->getInput();
         sepEvents();
+        _activeGfx->refresh();
     }
     _activeGfx->stop();
 }
@@ -112,4 +113,5 @@ void Core::sepEvents()
         _activeGfx = getLibs()[_i];
         _activeGfx->init();
     }
+    std::cout << _i << std::endl;
 }

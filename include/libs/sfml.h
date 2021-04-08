@@ -9,6 +9,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "iDisplayModule.hpp"
+#include "inputs.h"
 
 class LibSFML : public IDisplayModule {
     typedef void (LibSFML::*fnc_ptr)(int x, int y);

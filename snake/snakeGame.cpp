@@ -32,6 +32,7 @@ void SnakeGame::createMap(unsigned int width, unsigned int height)
 
 void SnakeGame::loadMap()
 {
+    createMap(10,10);
 }
 
 array_t SnakeGame::getArray()

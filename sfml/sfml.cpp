@@ -15,19 +15,11 @@ extern "C" IDisplayModule* create()
 void LibSFML::init()
 {
     _window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "");
-
-    //while (_window->isOpen()) {
-        sf::Event event{};
-        while (_window->pollEvent(event))
-            if (event.type == sf::Event::Closed)
-                _window->close();
-        _window->clear();
-        _window->display();
-    //}
 }
 
 void LibSFML::stop()
 {
+    _window->close();
 }
 
 const std::string &LibSFML::getName() const
@@ -42,15 +34,30 @@ bool LibSFML::isActive()
 
 void LibSFML::refresh()
 {
+    _window->display();
 }
 
 char LibSFML::getInput()
 {
-    return 0;
+    sf::Event event{};
+    while (_window->pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            _window->close();
+            _quit = false;
+            return '\0';
+        }
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Up)
+                return KEYUP;
+            if (event.key.code == sf::Keyboard::Down)
+                return KEYDOWN;
+        }
+    }
 }
 
 void LibSFML::printLevel(array_t array, unsigned int height, unsigned int width)
 {
+    _window->clear();
     _block_type.insert(std::make_pair('7', &LibSFML::drawBlackSquare));
     _block_type.insert(std::make_pair('0', &LibSFML::drawWhiteSquare));
     _block_type.insert(std::make_pair('1', &LibSFML::drawWhiteSquare));
@@ -119,5 +126,5 @@ void LibSFML::initWindow()
 
 bool LibSFML::getQuit()
 {
-    return false;
+    return _quit;
 }

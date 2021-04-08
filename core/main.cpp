@@ -22,7 +22,6 @@ void usage()
 
 int main(int ac, char **av)
 {
-    IGame *game = nullptr;
     if (ac != 2) {
         utils::usagePrompt();
         return 84;
@@ -30,12 +29,11 @@ int main(int ac, char **av)
     try {
         int i;
         Core core(av[1]);
-        core.loadgame("./lib/arcade_nibbler.so");
-        game = core.getGames()[0];
-        core.getActiveGfx()->printLevel(game->getArray(),10, 10);
+        core.gameLoop();
     } catch (MainException &exception) {
         std::cout << "Error: " << exception.what();
         return 84;
     }
+
     return 0;
 }
