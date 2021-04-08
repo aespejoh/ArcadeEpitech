@@ -47,3 +47,26 @@ IDisplayModule *Core::getActiveGfx() const
 {
     return _activeGfx;
 }
+
+void Core::loadgame(const std::string &game_path)
+{
+    IGame *lib;
+    typedef IGame* (*fptr)();
+    fptr func;
+    void *handle = dlopen(game_path.c_str(), RTLD_LAZY);
+    if (!handle) {
+        std::cout << dlerror() << std::endl;
+        return;
+    }
+    dlerror();
+    func = (fptr)dlsym(handle, "create");
+    lib = (IGame*)func();
+    _games.push_back(lib);
+    //if (dlclose(handle) != 0)
+    //    exit(84);
+}
+
+const std::vector<IGame *> &Core::getGames() const
+{
+    return _games;
+}

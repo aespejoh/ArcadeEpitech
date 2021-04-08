@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "iDisplayModule.hpp"
+#include "IGame.hpp"
 #include <dlfcn.h>
 #include <Utils.hpp>
 #include <Exception.hpp>
@@ -24,11 +25,14 @@ class Core {
         const std::vector<IDisplayModule *> &getLibs() const;
         void setActiveGfx(std::string libPath);
         void loadlib(const std::string &lib_path, const std::string &active_path);
+        void loadgame(const std::string &game_path);
         IDisplayModule *getActiveGfx() const;
+        const std::vector<IGame *> &getGames() const;
 
     private:
         IDisplayModule *_activeGfx;
         std::vector<IDisplayModule*> _libs;
+        std::vector<IGame*> _games;
 
 };
 

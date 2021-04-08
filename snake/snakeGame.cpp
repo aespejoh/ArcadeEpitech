@@ -6,6 +6,12 @@
 */
 #include "snakeGame.hpp"
 
+extern "C" IGame* create()
+{
+    return new SnakeGame();
+}
+
+
 void SnakeGame::createMap(unsigned int width, unsigned int height)
 {
     array_t array(height, std::vector<char> (width, '7'));

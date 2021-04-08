@@ -16,22 +16,17 @@ class LibSFML : public IDisplayModule {
     public:
         LibSFML();
         ~LibSFML() override = default;
-
-    bool isActive() override;
-
-    void refresh() override;
-
-    char getInput() override;
-
-    void printLevel(array_t array, unsigned int height, unsigned int width
-    ) override;
-
+        bool isActive() override;
+        void refresh() override;
+        char getInput() override;
+        void printLevel(array_t array, unsigned int height, unsigned int width
+        ) override;
     private:
-    void init() override;
-    void stop() override;
-    const std::string &getName() const override;
-    sf::RenderWindow *_window;
-    map_t _block_type;
+        void init() override;
+        void stop() override;
+        const std::string &getName() const override;
+        sf::RenderWindow *_window;
+        map_t _block_type;
         void drawBlackSquare(int x, int y);
         void drawWhiteSquare(int x, int y);
         void drawRedSquare(int x, int y);
