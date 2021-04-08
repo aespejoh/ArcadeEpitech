@@ -20,7 +20,7 @@
 
 class Core {
     public:
-        Core();
+        Core(std::string);
         ~Core() = default;
         const std::vector<IDisplayModule *> &getLibs() const;
         void setActiveGfx(std::string libPath);
