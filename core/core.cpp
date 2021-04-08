@@ -113,5 +113,4 @@ void Core::sepEvents()
         _activeGfx = getLibs()[_i];
         _activeGfx->init();
     }
-    std::cout << _i << std::endl;
 }
