@@ -50,7 +50,14 @@ void Libncurses::printLevel(array_t array, unsigned int height,
 {
 }
 
-Libncurses::Libncurses()
-{
-    _name = "ncurses";
+void Libncurses::initMenu() {
+
+}
+
+void Libncurses::initWindow() {
+
+}
+
+bool Libncurses::getQuit() {
+    return false;
 }

@@ -7,6 +7,7 @@
 #ifndef GLOBALPROJECT_CORE_H
 #define GLOBALPROJECT_CORE_H
 
+#include <cstring>
 #include <vector>
 #include "iDisplayModule.hpp"
 #include "IGame.hpp"
@@ -17,6 +18,8 @@
 #define NCURSES_PATH "./lib/arcade_ncurses.so"
 #define SFML_PATH "./lib/arcade_sfml.so"
 #define SDL2_PATH "./lib/arcade_sdl2.so"
+#include <Utils.hpp>
+#include <Exception.hpp>
 
 class Core {
     public:
@@ -28,12 +31,20 @@ class Core {
         void loadgame(const std::string &game_path);
         IDisplayModule *getActiveGfx() const;
         const std::vector<IGame *> &getGames() const;
+        void loadlibs();
+        int getNumLib(char *);
+        const std::vector<IDisplayModule *> &getLibs() const;
+        void gameLoop();
+        void sepEvents();
 
     private:
         IDisplayModule *_activeGfx;
         std::vector<IDisplayModule*> _libs;
         std::vector<IGame*> _games;
 
+        IDisplayModule *_lib;
+        char _key;
+        int _i;
 };
 
 #endif //GLOBALPROJECT_CORE_H

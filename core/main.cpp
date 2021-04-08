@@ -10,6 +10,16 @@
 #include <IGame.hpp>
 #include "snakeGame.hpp"
 
+void usage()
+{
+    std::cout << "USAGE" << std::endl;
+    std::cout << "./arcade [graphical library]" << std::endl;
+    std::cout << "Possible graphical libraries:" << std::endl;
+    std::cout << "\t- lib/arcade_sfml.so" << std::endl;
+    std::cout << "\t- lib/arcade_sdl2.so" << std::endl;
+    std::cout << "\t- lib/arcade_ncurses.so" << std::endl;
+}
+
 int main(int ac, char **av)
 {
     IGame *game = nullptr;
