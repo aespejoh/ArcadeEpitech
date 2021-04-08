@@ -12,19 +12,10 @@ class LibSDL : public IDisplayModule {
     bool isActive() override;
     void refresh() override;
     char getInput() override;
-    void printLevel(char **array, unsigned int height, unsigned int width
-    ) override;
     void initMenu() override;
     void displayRedSquare(int, int);
     void initWindow() override;
     bool getQuit() override;
-
-    bool isActive() override;
-
-    void refresh() override;
-
-    char getInput() override;
-
     void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
 

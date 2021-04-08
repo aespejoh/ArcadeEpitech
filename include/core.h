@@ -31,9 +31,7 @@ class Core {
         void loadgame(const std::string &game_path);
         IDisplayModule *getActiveGfx() const;
         const std::vector<IGame *> &getGames() const;
-        void loadlibs();
         int getNumLib(char *);
-        const std::vector<IDisplayModule *> &getLibs() const;
         void gameLoop();
         void sepEvents();
 

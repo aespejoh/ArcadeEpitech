@@ -75,10 +75,7 @@ char LibSDL::getInput()
         if (_event.type == SDL_KEYDOWN)
             return KEYDOWN;
     }
-}
-
-void LibSDL::printLevel(char **array, unsigned int height, unsigned int width)
-{
+    return '\0';
 }
 
 void LibSDL::initMenu()
@@ -128,5 +125,13 @@ void LibSDL::displayRedSquare(int x, int y)
     SDL_Rect fillRect = {x, y, SQUARE_SIZE};
     SDL_SetRenderDrawColor(_render, RED);
     SDL_RenderFillRect(_render, &fillRect);
+}
+
+void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
+{
+}
+
+LibSDL::LibSDL()
+{
 }
 

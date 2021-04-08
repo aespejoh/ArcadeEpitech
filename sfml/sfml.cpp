@@ -108,3 +108,16 @@ void LibSFML::drawRedSquare(int x, int y)
     _window->draw(cell);
 
 }
+
+void LibSFML::initMenu()
+{
+}
+
+void LibSFML::initWindow()
+{
+}
+
+bool LibSFML::getQuit()
+{
+    return false;
+}

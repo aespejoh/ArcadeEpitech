@@ -7,7 +7,7 @@
 
 #include "core.h"
 
-void Core::loadlib(const std::string& lib_path)
+void Core::loadlib(const std::string& lib_path, const std::string &active_path)
 {
     IDisplayModule *lib;
     typedef IDisplayModule* (*fptr)();
@@ -72,13 +72,6 @@ void Core::loadgame(const std::string &game_path)
 const std::vector<IGame *> &Core::getGames() const
 {
     return _games;
-}
-
-void Core::loadlibs()
-{
-    loadlib("./lib/arcade_sfml.so");
-    loadlib("./lib/arcade_sdl2.so");
-    loadlib("./lib/arcade_ncurses.so");
 }
 
 int Core::getNumLib(char *libPath)

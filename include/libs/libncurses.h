@@ -8,21 +8,16 @@ void hello();
 
 class Libncurses : public IDisplayModule {
     public:
-    Libncurses(){};
-    ~Libncurses() override = default;
-
-    bool isActive() override;
-
-    void refresh() override;
-
-    char getInput() override;
-
-    void printLevel(char **array, unsigned int height, unsigned int width
-    ) override;
-    void initMenu() override;
-    void initWindow() override;
-    bool getQuit() override;
-
+        Libncurses(){};
+        ~Libncurses() override = default;
+        bool isActive() override;
+        void refresh() override;
+        char getInput() override;
+        void printLevel(array_t array, unsigned int height, unsigned int width
+        ) override;
+        void initMenu() override;
+        void initWindow() override;
+        bool getQuit() override;
 private:
     void init() override;
     void stop() override;
