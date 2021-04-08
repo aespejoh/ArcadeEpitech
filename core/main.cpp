@@ -30,7 +30,7 @@ int main(int ac, char **av)
     game.createMap(20,20);
     game.put(1,1,'5');
     game.printMap();
-    Core core(av);
+    Core core(av, &game);
     //core.loadlib("./lib/arcade_sfml.so");
 /*
     if (ac != 2) {

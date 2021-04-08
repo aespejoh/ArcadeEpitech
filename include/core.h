@@ -7,6 +7,7 @@
 #ifndef GLOBALPROJECT_CORE_H
 #define GLOBALPROJECT_CORE_H
 
+#include "IGame.hpp"
 #include <cstring>
 #include <vector>
 #include "iDisplayModule.hpp"
@@ -16,7 +17,7 @@
 
 class Core {
     public:
-        explicit Core(char **);
+        explicit Core(char **, IGame *);
         ~Core() = default;
         void loadlib(const std::string&);
         void loadlibs();
@@ -30,6 +31,7 @@ class Core {
         IDisplayModule *_lib;
         char _key;
         int _i;
+        IGame *_game;
 };
 
 #endif //GLOBALPROJECT_CORE_H

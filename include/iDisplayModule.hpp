@@ -9,6 +9,9 @@
 
 #include "inputs.h"
 #include <iostream>
+#include <vector>
+
+typedef std::vector<std::vector<char>> array_t;
 
 class IDisplayModule {
 
@@ -20,7 +23,7 @@ class IDisplayModule {
         virtual bool isActive() = 0;
         virtual void refresh() = 0;
         virtual char getInput() = 0;
-        virtual void printLevel(char **array, unsigned int height, unsigned int width) = 0;
+        virtual void printLevel(array_t array, unsigned int height, unsigned int width) = 0;
 
         virtual void initMenu() = 0;
         virtual void initWindow() = 0;

@@ -12,7 +12,7 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-#define SQUARE_SIZE 25, 25
+#define SQUARE_SIZE 10, 10
 
 extern "C" IDisplayModule* create()
 {
@@ -65,20 +65,25 @@ void LibSDL::refresh()
 
 char LibSDL::getInput()
 {
-    while (SDL_PollEvent(&_event) != 0) {
-        if (_event.type == SDL_QUIT) {
+    while( SDL_PollEvent(&_event)){
+        if(_event.type == SDL_QUIT) {
             stop();
             _quit = true;
+        } else if(_event.type == SDL_KEYDOWN) {
+            switch(_event.key.keysym.sym) {
+                case SDLK_UP:
+                    return KEYUP;
+                case SDLK_DOWN:
+                    return KEYDOWN;
+                case SDLK_LEFT:
+                    return KEYDOWN;
+                case SDLK_RIGHT:
+                    return KEYDOWN;
+                default:
+                    return KEYDOWN;
+            }
         }
-        if (_event.type == SDL_KEYUP)
-            return KEYUP;
-        if (_event.type == SDL_KEYDOWN)
-            return KEYDOWN;
     }
-}
-
-void LibSDL::printLevel(char **array, unsigned int height, unsigned int width)
-{
 }
 
 void LibSDL::initMenu()
@@ -123,10 +128,49 @@ void LibSDL::stop()
     SDL_Quit();
 }
 
+void LibSDL::displayBlackSquare(int x, int y)
+{
+    SDL_Rect fillRect = {x, y, SQUARE_SIZE};
+    SDL_SetRenderDrawColor(_render, BLACK);
+    SDL_RenderFillRect(_render, &fillRect);
+}
+
+void LibSDL::displayWhiteSquare(int x, int y)
+{
+    SDL_Rect fillRect = {x, y, SQUARE_SIZE};
+    SDL_SetRenderDrawColor(_render, WHITE);
+    SDL_RenderFillRect(_render, &fillRect);
+}
+
 void LibSDL::displayRedSquare(int x, int y)
 {
     SDL_Rect fillRect = {x, y, SQUARE_SIZE};
     SDL_SetRenderDrawColor(_render, RED);
     SDL_RenderFillRect(_render, &fillRect);
+}
+
+void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
+{
+    _block_type.insert(std::make_pair('7', &LibSDL::displayBlackSquare));
+    _block_type.insert(std::make_pair('0', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('1', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('2', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('3', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('4', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('5', &LibSDL::displayWhiteSquare));
+    _block_type.insert(std::make_pair('8', &LibSDL::displayRedSquare));
+    int x = 0;
+    int y = 0;
+    for (auto &i: array) {
+        for (auto &e : i) {
+            auto it = _block_type.find(e);
+            if (it == _block_type.end())
+                continue;
+            (this->*it->second)(x, y);
+            x += 10;
+        }
+        x = 0;
+        y += 10;
+    }
 }
 

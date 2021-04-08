@@ -7,9 +7,11 @@
 
 #include "core.h"
 
-Core::Core(char **av)
+Core::Core(char **av, IGame *game)
 {
+    _key = 0;
     loadlibs();
+    _game = game;
     _i = getNumLib(av[1]);
     if (_i >= 0 && _i <= 2)
         _lib = getLibs()[_i];
@@ -64,6 +66,7 @@ int Core::getNumLib(char *libPath)
 void Core::gameLoop()
 {
     while (!_lib->getQuit()) {
+        //_lib->printLevel(_game->getArray(), 10, 10);
         _lib->initMenu();
         _key = _lib->getInput();
         sepEvents();
@@ -83,8 +86,8 @@ void Core::sepEvents()
     }
     if (_key == KEYDOWN) {
         _i -= 1;
-        if (_i > 2)
-            _i = 0;
+        if (_i < 0)
+            _i = 2;
         _lib->stop();
         _lib = getLibs()[_i];
         _lib->init();

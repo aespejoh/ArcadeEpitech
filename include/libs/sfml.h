@@ -21,7 +21,7 @@ class LibSFML : public IDisplayModule {
 
     char getInput() override;
 
-    void printLevel(char **array, unsigned int height, unsigned int width
+    void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
     void initMenu() override;
     void initWindow() override;

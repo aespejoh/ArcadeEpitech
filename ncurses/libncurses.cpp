@@ -44,12 +44,6 @@ char Libncurses::getInput()
     return 0;
 }
 
-void Libncurses::printLevel(char **array, unsigned int height,
-    unsigned int width
-)
-{
-}
-
 void Libncurses::initMenu() {
 
 }
@@ -60,4 +54,8 @@ void Libncurses::initWindow() {
 
 bool Libncurses::getQuit() {
     return false;
+}
+
+void Libncurses::printLevel(array_t array, unsigned int height, unsigned int width) {
+
 }
