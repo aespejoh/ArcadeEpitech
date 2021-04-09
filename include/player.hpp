@@ -19,18 +19,21 @@ class Player
     typedef void (Player::*fnc_ptr)();
     typedef std::map<int , fnc_ptr> map_t;
     public:
-    int getDirection() const;
-    void setDirection(int direction);
-    int getX() const;
-    int getY() const;
-    void setPosition(int y, int x);
-    void move();
+        Player();
+        ~Player() = default;
+        int getDirection() const;
+        void setDirection(int direction);
+        int getX() const;
+        int getY() const;
+        void setPosition(int y, int x);
+        void move();
     protected:
+        map_t _map;
         void moveUP();
         void moveDOWN();
         void moveLEFT();
         void moveRIGHT();
-        int _direction;
+        int _direction = 1;
         int _x = 5;
         int _y = 5;
 };

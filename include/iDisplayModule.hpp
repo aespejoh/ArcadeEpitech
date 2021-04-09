@@ -14,7 +14,6 @@
 typedef std::vector<std::vector<char>> array_t;
 
 class IDisplayModule {
-
     public:
         virtual void init()=0;
         virtual void stop()=0;

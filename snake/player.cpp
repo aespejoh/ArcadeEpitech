@@ -34,13 +34,8 @@ void Player::setPosition(int y, int x)
 
 void Player::move()
 {
-    map_t map;
-    map.insert(std::make_pair(UP, &Player::moveUP));
-    map.insert(std::make_pair(DOWN, &Player::moveDOWN));
-    map.insert(std::make_pair(LEFT, &Player::moveLEFT));
-    map.insert(std::make_pair(RIGHT, &Player::moveRIGHT));
-    auto it = map.find(_direction);
-    if (it == map.end())
+    auto it = _map.find(_direction);
+    if (it == _map.end())
         exit(84);
     (this->*it->second)();
 }
@@ -63,5 +58,13 @@ void Player::moveLEFT()
 void Player::moveRIGHT()
 {
     _x++;
+}
+
+Player::Player()
+{
+    _map.insert(std::make_pair(UP, &Player::moveUP));
+    _map.insert(std::make_pair(DOWN, &Player::moveDOWN));
+    _map.insert(std::make_pair(LEFT, &Player::moveLEFT));
+    _map.insert(std::make_pair(RIGHT, &Player::moveRIGHT));
 }
 
