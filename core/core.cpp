@@ -12,7 +12,7 @@ void Core::loadlib(const std::string& lib_path, const std::string &active_path)
     IDisplayModule *lib;
     typedef IDisplayModule* (*fptr)();
     fptr func;
-    void *handle = dlopen(lib_path.c_str(), RTLD_LAZY);
+    void *handle = dlopen(active_path.c_str() , RTLD_LAZY);
     if (!handle) {
         std::cout << dlerror() << std::endl;
         return;
@@ -20,7 +20,7 @@ void Core::loadlib(const std::string& lib_path, const std::string &active_path)
     dlerror();
     func = (fptr)dlsym(handle, "create");
     lib = (IDisplayModule*)func();
-    if (lib_path == active_path)
+    if (active_path.find(lib_path) != std::string::npos)
         _activeGfx = lib;
     _libs.push_back(lib);
     //if (dlclose(handle) != 0)
@@ -35,12 +35,12 @@ const std::vector<IDisplayModule *> &Core::getLibs() const
 
 Core::Core(const std::string& lib)
 {
-    _i = getNumLib(lib.c_str());
+    _i = getNumLib(lib);
     _key = 0;
     _activeGfx = nullptr;
-    loadlib(SFML_PATH, lib);
-    loadlib(SDL2_PATH, lib);
-    loadlib(NCURSES_PATH, lib);
+    loadlib(SFML_FILE, lib);
+    loadlib(SDL2_FILE, lib);
+    loadlib(NCURSES_FILE, lib);
     loadgame("./lib/arcade_nibbler.so");
     _activeGame->loadMap();
 }
@@ -72,19 +72,25 @@ const std::vector<IGame *> &Core::getGames() const
     return _games;
 }
 
-int Core::getNumLib(const char *libPath)
+int Core::getNumLib(std::string lib)
 {
-    if (std::strcmp(libPath, SFML_PATH) == 0)
-        return 0;
-    else if(std::strcmp(libPath, SDL2_PATH) == 0)
-        return 1;
-    else if (std::strcmp(libPath, NCURSES_PATH) == 0)
-        return 2;
-    return 3;
+    std::ifstream my_file(lib);
+
+    if (my_file.good()) {
+        if (lib.find(SFML_FILE) != std::string::npos)
+            return 0;
+        else if (lib.find(SDL2_FILE) != std::string::npos)
+            return 1;
+        else if (lib.find(NCURSES_FILE) != std::string::npos)
+            return 2;
+    }
+    throw MainException("Incorrect or corrupt library\n");
 }
 
 void Core::gameLoop()
 {
+    if (_activeGfx == NULL)
+        throw MainException("No library has been found.\n");
     _activeGfx->init();
     while (!_activeGfx->getQuit()) {
         _key = _activeGfx->getInput();
@@ -108,8 +114,8 @@ void Core::sepEvents()
     }
     if (_key == KEYDOWN) {
         _i -= 1;
-        if (_i > 2)
-            _i = 0;
+        if (_i < 0)
+            _i = 2;
         _activeGfx->stop();
         _activeGfx = getLibs()[_i];
         _activeGfx->init();
