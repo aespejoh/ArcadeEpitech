@@ -15,16 +15,16 @@ extern "C" int destroy()
 void Libncurses::init()
 {
     initscr();
+    erase();
     printw("Welcome to NCurses!");
     noecho();
     keypad(stdscr, TRUE);
-    refresh();
     curs_set(0);
-    endwin();
 }
 
 void Libncurses::stop()
 {
+    endwin();
 }
 
 const std::string &Libncurses::getName() const
@@ -44,20 +44,22 @@ void Libncurses::refresh()
 char Libncurses::getInput()
 {
     int ch = getch();
-    if (ch == KEY_UP) {
-        printw("KEYYYY UPOOOO");
+    if (ch == KEY_UP)
         return KEYUP;
-    }
-    if (ch == KEY_DOWN) {
-        printw("KEYYYY DOWNNNOOO");
+    if (ch == KEY_DOWN)
         return KEYDOWN;
-    }
+    return ch;
 }
 
 void Libncurses::printLevel(array_t array, unsigned int height,
     unsigned int width
 )
 {
+    for (auto pixel : array) {
+        for (auto i : pixel) {
+            std::cout << i << std::endl;
+        }
+    }
 }
 
 void Libncurses::initMenu() {
