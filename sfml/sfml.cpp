@@ -74,6 +74,7 @@ void LibSFML::printLevel(array_t array, unsigned int height, unsigned int width)
     _block_type.insert(std::make_pair('4', &LibSFML::drawWhiteSquare));
     _block_type.insert(std::make_pair('5', &LibSFML::drawWhiteSquare));
     _block_type.insert(std::make_pair('A', &LibSFML::drawRedSquare));
+    _block_type.insert(std::make_pair('8', &LibSFML::drawBlueCircle));
     int x = 0;
     int y = 0;
     for (auto &i: array) {
@@ -111,7 +112,6 @@ void LibSFML::drawWhiteSquare(int x, int y)
     cell.setFillColor(sf::Color::White);
     cell.setPosition(x, y);
     _window->draw(cell);
-
 }
 
 void LibSFML::drawRedSquare(int x, int y)
@@ -121,7 +121,15 @@ void LibSFML::drawRedSquare(int x, int y)
     cell.setFillColor(sf::Color::Red);
     cell.setPosition(x, y);
     _window->draw(cell);
+}
 
+void LibSFML::drawBlueCircle(int x, int y)
+{
+    sf::CircleShape cell;
+    cell.setRadius(5);
+    cell.setFillColor(sf::Color::Blue);
+    cell.setPosition(x, y);
+    _window->draw(cell);
 }
 
 void LibSFML::initMenu()

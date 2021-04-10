@@ -15,6 +15,7 @@
 #include <ctime>
 #include <Exception.hpp>
 #include <cmath>
+#include <random>
 
 #define HEAD 'A'
 #define FOOD '8'
@@ -35,8 +36,12 @@ class SnakeGame : public IGame {
         bool isGameOver() const override;
 
     private:
+        int height = 50;
+        int width = 50;
+        void generateFood();
         bool game_over;
         int check_ahead();
+        int check_pos(int x, int y);
         const float num_sec = 0.2;
         clock_t _current;
         clock_t _last;

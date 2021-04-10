@@ -33,6 +33,7 @@ class LibSFML : public IDisplayModule {
         void drawBlackSquare(int x, int y);
         void drawWhiteSquare(int x, int y);
         void drawRedSquare(int x, int y);
+        void drawBlueCircle(int x, int y);
     //void init(const array_t& array);
 };
 

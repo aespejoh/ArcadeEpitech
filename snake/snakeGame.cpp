@@ -30,11 +30,12 @@ void SnakeGame::createMap(unsigned int width, unsigned int height)
     array[height / 2][width / 2] = 'A';
     _player->setPosition(height / 2, width / 2);
     _array = array;
+    generateFood();
 }
 
 void SnakeGame::loadMap()
 {
-    createMap(50,50);
+    createMap(width,height);
 }
 
 array_t SnakeGame::getArray()
@@ -71,6 +72,9 @@ void SnakeGame::update(char input)
         if (check_ahead() == IS_WALL) {
             game_over = true;
             return;
+        } else if (check_ahead() == IS_FOOD) {
+            generateFood();
+            _len++;
         }
         getPlayer()->move();
     }
@@ -90,6 +94,7 @@ void SnakeGame::SnakeLogic()
 
 SnakeGame::SnakeGame()
 {
+    game_over = false;
     _current = clock();
     _last = _current;
     _len = 4;
@@ -132,7 +137,26 @@ int SnakeGame::check_ahead()
     }
 }
 
+int SnakeGame::check_pos(int x, int y)
+{
+    if (SOLID_OBJECT.count(_array[y][x]) != 0) //if next is solid
+        return IS_WALL;
+    else if (_array[y][x] == FOOD)
+        return IS_FOOD;
+    return IS_EMPTY;
+}
+
 bool SnakeGame::isGameOver() const
 {
     return game_over;
+}
+
+void SnakeGame::generateFood()
+{
+    int x = (int)random() % 50;
+    int y = (int)random() % 50;
+    if (check_pos(x, y) == IS_EMPTY)
+        put(y, x, FOOD);
+    else
+        generateFood();
 }
