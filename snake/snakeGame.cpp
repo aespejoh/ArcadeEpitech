@@ -27,12 +27,15 @@ void SnakeGame::createMap(unsigned int width, unsigned int height)
     array[0][width - 1] = '3';
     array[height - 1][0] = '4';
     array[height - 1][width - 1] = '5';
+    array[height / 2][width / 2] = 'A';
+    _player->setPosition(height / 2, width / 2);
     _array = array;
+    generateFood();
 }
 
 void SnakeGame::loadMap()
 {
-    createMap(10,10);
+    createMap(width,height);
 }
 
 array_t SnakeGame::getArray()
@@ -42,7 +45,11 @@ array_t SnakeGame::getArray()
 
 void SnakeGame::put(unsigned int y, unsigned int x, char item)
 {
-    _array[y][x] = item;
+    try {
+        _array[y][x] = item;
+    } catch (MainException &exception) {
+        return;
+    }
 }
 
 void SnakeGame::printMap()
@@ -56,22 +63,100 @@ void SnakeGame::printMap()
 
 void SnakeGame::update(char input)
 {
+    _current = clock();
+    _time_counter += (double)(_current - _last);
+    _last = _current;
+    put(getPlayer()->getY(), getPlayer()->getX(), EMPTY_SPACE);
+    if (_time_counter > (double)(num_sec * CLOCKS_PER_SEC)) {
+        _time_counter -= (double)(num_sec * CLOCKS_PER_SEC);
+        if (check_ahead() == IS_WALL) {
+            game_over = true;
+            return;
+        } else if (check_ahead() == IS_FOOD) {
+            generateFood();
+            _len++;
+        }
+        getPlayer()->move();
+    }
     auto it = movement_Input.find(input);
     if (it != movement_Input.end()) {
         std::cout << input << std::endl;
-        put(getPlayer()->getY(), getPlayer()->getX(), EMPTY_SPACE);
         getPlayer()->setDirection(it->second);
-        getPlayer()->move();
-        put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
-        printMap();
+        //printMap();
     }
+    put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
+}
+
+void SnakeGame::SnakeLogic()
+{
+
 }
 
 SnakeGame::SnakeGame()
 {
+    game_over = false;
+    _current = clock();
+    _last = _current;
+    _len = 4;
     _player = new Player;
     movement_Input.insert(std::make_pair('w', 1));
     movement_Input.insert(std::make_pair('a', 3));
     movement_Input.insert(std::make_pair('s', 2));
     movement_Input.insert(std::make_pair('d', 4));
+}
+
+int SnakeGame::check_ahead()
+{
+    int x = getPlayer()->getX();
+    int y = getPlayer()->getY();
+    switch (getPlayer()->getDirection()) {
+    case RIGHT:
+        if (SOLID_OBJECT.count(_array[y][x + 1]) != 0) //if next is solid
+            return IS_WALL;
+        else if (_array[y][x + 1] == FOOD)
+            return IS_FOOD;
+        return IS_EMPTY;
+    case LEFT:
+        if (SOLID_OBJECT.count(_array[y][x - 1]) != 0) //if next is solid
+            return IS_WALL;
+        else if (_array[y][x - 1] == FOOD)
+            return IS_FOOD;
+        return IS_EMPTY;
+    case UP:
+        if (SOLID_OBJECT.count(_array[y - 1][x]) != 0) //if next is solid
+            return IS_WALL;
+        else if (_array[y - 1][x] == FOOD)
+            return IS_FOOD;
+        return IS_EMPTY;
+    case DOWN:
+        if (SOLID_OBJECT.count(_array[y + 1][x]) != 0) //if next is solid
+            return IS_WALL;
+        else if (_array[y + 1][x] == FOOD)
+            return IS_FOOD;
+        return IS_EMPTY;
+    }
+}
+
+int SnakeGame::check_pos(int x, int y)
+{
+    if (SOLID_OBJECT.count(_array[y][x]) != 0) //if next is solid
+        return IS_WALL;
+    else if (_array[y][x] == FOOD)
+        return IS_FOOD;
+    return IS_EMPTY;
+}
+
+bool SnakeGame::isGameOver() const
+{
+    return game_over;
+}
+
+void SnakeGame::generateFood()
+{
+    int x = (int)random() % 50;
+    int y = (int)random() % 50;
+    if (check_pos(x, y) == IS_EMPTY)
+        put(y, x, FOOD);
+    else
+        generateFood();
 }

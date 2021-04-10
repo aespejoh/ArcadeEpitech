@@ -38,6 +38,7 @@ const std::vector<IDisplayModule *> &Core::getLibs() const
 Core::Core(const std::string& lib)
 {
     _i = getNumLib(lib);
+    _name = "name";
     _key = 0;
     _menu = true;
     _game = false;
@@ -98,11 +99,10 @@ void Core::gameLoop()
     _activeGfx->init();
     while (!_activeGfx->getQuit()) {
         _key = _activeGfx->getInput(_menu);
-        _activeGame->update(_key);
-        /*if (_menu) {
-            _name += _activeGfx->getUsername();
-            std::cout << _name << std::endl;
-        }*/
+        //_activeGame->update(_key);
+        if (_menu)
+            _name = _activeGfx->getUsername();
+        _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
         if (_menu)
             _activeGfx->initMenu();
         else
@@ -135,8 +135,6 @@ void Core::sepEvents()
         case MOUSELEFT:
             _menu = false;
             _game = true;
-            break;
-        default:
             break;
     }
 }

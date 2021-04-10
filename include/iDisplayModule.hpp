@@ -25,13 +25,15 @@ class IDisplayModule {
         virtual void refresh() = 0;
         virtual char getInput(bool) = 0;
         virtual void printLevel(array_t array, unsigned int height, unsigned int width) = 0;
-        virtual char getUsername() = 0;
+        virtual std::string getUsername() = 0;
         virtual void initMenu() = 0;
         virtual bool getQuit() = 0;
         virtual int getEvent() = 0;
+        virtual void printInfo(std::string, std::string, std::string) = 0;
     protected:
         std::string _name;
         bool _quit = false;
+        std::string _username;
 };
 
 #endif //GLOBALPROJECT_IDISPLAYMODULE_HPP

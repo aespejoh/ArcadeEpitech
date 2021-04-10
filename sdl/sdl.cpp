@@ -3,6 +3,7 @@
 #include <libncurses.h>
 
 #define RED 255, 0, 0, 0.7
+#define COLOR 104, 227, 165, 0.9
 #define GREEN 0, 255, 0, 0.7
 #define WHITE 255, 255, 255, 0
 #define BLUE 0, 0, 255, 0.8
@@ -22,9 +23,6 @@ extern "C" IDisplayModule* create()
 
 void LibSDL::init()
 {
-    _window = nullptr;
-    _render = nullptr;
-
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         _quit = true;
     TTF_Init();
@@ -35,7 +33,7 @@ void LibSDL::init()
     SDL_SetRenderDrawColor(_render, WHITE);
     _image = IMG_Load("./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg");
     _font = TTF_OpenFont("./OpenSans-Bold.ttf", 50);
-    _font_two = TTF_OpenFont("./OpenSans-Bold.ttf", 48);
+    _font_two = TTF_OpenFont("./OpenSans-Bold.ttf", 25);
     _texture_image = SDL_CreateTextureFromSurface(_render, _image);
 }
 
@@ -53,13 +51,17 @@ void LibSDL::refresh()
 {
 }
 
-char LibSDL::manageKey()
+char LibSDL::manageKeyFalse()
 {
     switch (_event.key.keysym.sym) {
         case SDLK_UP:
             return KEYUP;
         case SDLK_DOWN:
             return KEYDOWN;
+        case SDLK_BACKSPACE:
+            if (_username.length() > 0)
+                _username.pop_back();
+            break;
         case SDLK_a:
             return 'a';
         case SDLK_w:
@@ -71,17 +73,43 @@ char LibSDL::manageKey()
     }
 }
 
+char LibSDL::manageKeyTrue()
+{
+    switch (_event.key.keysym.sym) {
+        case SDLK_UP:
+            return KEYUP;
+        case SDLK_DOWN:
+            return KEYDOWN;
+        case SDLK_BACKSPACE:
+            if (_username.length() <= 4)
+                std::cout << "backspace " << _username.length() << std::endl;
+            if (_username.length() > 0)
+                _username.pop_back();
+            break;
+    }
+}
+
 char LibSDL::getInput(bool input)
 {
     while( SDL_PollEvent(&_event)){
         switch (_event.type) {
             case SDL_QUIT:
+                std::cout << "quit" << std::endl;
                 stop();
                 _quit = true;
                 break;
+            case SDL_TEXTINPUT:
+                std::cout << "text input" << std::endl;
+                _username += (static_cast<char>(*_event.text.text));
+                break;
             case SDL_KEYDOWN:
-                return manageKey();
+                std::cout << "key down" << std::endl;
+                if (input)
+                    return manageKeyTrue();
+                else
+                    return manageKeyFalse();
             case SDL_MOUSEBUTTONDOWN:
+                std::cout << "mouse button" << std::endl;
                 if(_event.button.button == SDL_BUTTON_LEFT){
                     SDL_GetMouseState(&_xMouse,&_yMouse);
                     if (_xMouse >= 400 && _xMouse <= 600 && _yMouse >= 550 && _yMouse <= 650 && input == true) {
@@ -97,8 +125,8 @@ char LibSDL::getInput(bool input)
 
 void LibSDL::initMenu()
 {
-    SDL_Color white = { WHITE };
-    SDL_Color black = { BLACK };
+    SDL_Color white = { 255, 255, 255 };
+    SDL_Color black = { 0, 0, 0 };
     SDL_RenderCopy(_render, _texture_image, nullptr, nullptr);
     _rect = { 350, 50, 300, 100 };
     _text = TTF_RenderText_Solid(_font, "ARCADE", white);
@@ -108,8 +136,41 @@ void LibSDL::initMenu()
     _text = TTF_RenderText_Solid(_font, "Play", white);
     _texture_text = SDL_CreateTextureFromSurface(_render, _text);
     SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    SDL_FreeSurface(_text);
-    SDL_DestroyTexture(_texture_text);
+    _rect = { 150, 200, 225, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Username:", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 150, 300, 125, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Game:", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 150, 400, 125, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Lib:", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    /*_rect = { 170, 300, 125, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Game:", black);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);*/
+    //printGame();
+    //SDL_RenderPresent(_render);
+}
+
+void LibSDL::printInfo(std::string username, std::string lib, std::string game)
+{
+    SDL_Color white = { 255, 255, 255 };
+    _rect = { 600, 200, static_cast<int>((username.length() * 25)), 50 };
+    _text = TTF_RenderText_Solid(_font_two, username.c_str(), white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 600, 400, 125, 50 };
+    _text = TTF_RenderText_Solid(_font_two, lib.c_str(), white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 600, 300, 125, 50 };
+    _text = TTF_RenderText_Solid(_font_two, game.c_str(), white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
     SDL_RenderPresent(_render);
 }
 
@@ -185,7 +246,14 @@ int LibSDL::getEvent() {
     return (SDL_PollEvent(&_event));
 }
 
-char LibSDL::getUsername() {
-    if (_event.key.keysym.sym == SDL_TEXTINPUT)
-        return (static_cast<char>(*_event.text.text));
+std::string LibSDL::getUsername()
+{
+    return _username;
+}
+
+LibSDL::LibSDL()
+{
+    _name = "sdl2";
+    _window = nullptr;
+    _render = nullptr;
 }

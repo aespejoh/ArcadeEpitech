@@ -10,6 +10,7 @@
 #include <vector>
 #include <algorithm>
 #include <player.hpp>
+#include <set>
 
 #define VERTICAL_LINE '0'
 #define HORIZONTAL_LINE '1'
@@ -29,9 +30,16 @@ class IGame {
         virtual array_t getArray() {return _array;};
         virtual void put(unsigned int y, unsigned int x, char item) = 0;
         virtual Player* getPlayer() {return _player;};
+        virtual bool isGameOver() const = 0;
+
     protected:
+        typedef struct point {
+            int x;
+            int y;
+        }Point;
         array_t _array;
         Player *_player;
+        std::set<char>SOLID_OBJECT = {VERTICAL_LINE, HORIZONTAL_LINE};
 };
 
 #endif //GLOBALPROJECT_IGAME_HPP

@@ -18,7 +18,8 @@ class Libncurses : public IDisplayModule {
         void initMenu() override;
         bool getQuit() override;
         int getEvent() override;
-        char getUsername() override;
+        std::string getUsername() override;
+        void printInfo(std::string, std::string, std::string) override;
 private:
     void init() override;
     void stop() override;

@@ -12,7 +12,7 @@ class LibSDL : public IDisplayModule {
     typedef void (LibSDL::*fnc_ptr)(int, int);
     typedef std::map<char, fnc_ptr> map_t;
 public:
-    LibSDL() = default;
+    LibSDL();
     ~LibSDL() override = default;
     bool isActive() override;
     void refresh() override;
@@ -20,10 +20,12 @@ public:
     void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
     void initMenu() override;
+    void printInfo(std::string, std::string, std::string) override;
     bool getQuit() override;
-    char manageKey();
+    char manageKeyTrue();
+    char manageKeyFalse();
     int getEvent() override;
-    char getUsername() override;
+    std::string getUsername() override;
 
 private:
     void init() override;
