@@ -70,6 +70,8 @@ void Libncurses::printLevel(array_t array, unsigned int height,
     int f = 0;
     int s = 0;
 
+    // Check for screen size!!!!!!!
+    // Colors on things
     for (std::vector<char> line : array) {
         for (char pixel : line) {
             auto it = displayMap.find(pixel);
