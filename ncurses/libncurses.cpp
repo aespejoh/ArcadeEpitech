@@ -14,11 +14,13 @@ extern "C" int destroy()
 
 void Libncurses::init()
 {
-    initscr();			/* Start curses mode 		  */
-    printw("Hello World !!!");	/* Print Hello World		  */
-    refresh();			/* Print it on to the real screen */
-    getch();			/* Wait for user input */
-    endwin();			/* End curses mode		  */
+    initscr();
+    printw("Welcome to NCurses!");
+    noecho();
+    keypad(stdscr, TRUE);
+    refresh();
+    curs_set(0);
+    endwin();
 }
 
 void Libncurses::stop()
@@ -39,23 +41,37 @@ void Libncurses::refresh()
 {
 }
 
-char Libncurses::getInput()
+char Libncurses::getInput(bool input)
 {
-    return 0;
+    int ch = getch();
+    if (ch == KEY_UP) {
+        printw("KEYYYY UPOOOO");
+        return KEYUP;
+    }
+    if (ch == KEY_DOWN) {
+        printw("KEYYYY DOWNNNOOO");
+        return KEYDOWN;
+    }
+}
+
+void Libncurses::printLevel(array_t array, unsigned int height,
+    unsigned int width
+)
+{
 }
 
 void Libncurses::initMenu() {
 
 }
 
-void Libncurses::initWindow() {
-
-}
-
 bool Libncurses::getQuit() {
-    return false;
+    return _quit;
 }
 
-void Libncurses::printLevel(array_t array, unsigned int height, unsigned int width) {
+int Libncurses::getEvent() {
+    return 0;
+}
 
+char Libncurses::getUsername() {
+    return 0;
 }

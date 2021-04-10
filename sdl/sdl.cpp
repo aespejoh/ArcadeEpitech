@@ -8,9 +8,10 @@
 #define BLUE 0, 0, 255, 0.8
 #define YELLOW 255, 255, 0, 1
 #define BLACK 0, 0, 0, 1
+#define CYAN 124, 196, 196, 1
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1000;
+const int SCREEN_HEIGHT = 750;
 
 #define SQUARE_SIZE 10, 10
 
@@ -21,32 +22,21 @@ extern "C" IDisplayModule* create()
 
 void LibSDL::init()
 {
-    SDL_Window* window = nullptr;
-    SDL_Surface* screenSurface = nullptr;
+    _window = nullptr;
+    _render = nullptr;
 
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-    else {
-        //Create window
-        window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( window == nullptr )
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-        else {
-            //Get window surface
-            screenSurface = SDL_GetWindowSurface( window );
-            //Fill the surface white
-            SDL_FillRect( screenSurface, nullptr, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-            //Update the surface
-            SDL_UpdateWindowSurface( window );
-            //Wait two seconds
-            SDL_Delay( 2000 );
-        }
-    }
-    //Destroy window
-    SDL_DestroyWindow( window );
-    //Quit SDL subsystems
-    SDL_Quit();
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
+        _quit = true;
+    TTF_Init();
+    _window = SDL_CreateWindow("arcade",
+                                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+                                           SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    _render = SDL_CreateRenderer(_window, -1, 0);
+    SDL_SetRenderDrawColor(_render, WHITE);
+    _image = IMG_Load("./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg");
+    _font = TTF_OpenFont("./OpenSans-Bold.ttf", 50);
+    _font_two = TTF_OpenFont("./OpenSans-Bold.ttf", 48);
+    _texture_image = SDL_CreateTextureFromSurface(_render, _image);
 }
 
 const std::string &LibSDL::getName() const
@@ -63,59 +53,64 @@ void LibSDL::refresh()
 {
 }
 
-char LibSDL::getInput()
+char LibSDL::manageKey()
+{
+    switch (_event.key.keysym.sym) {
+        case SDLK_UP:
+            return KEYUP;
+        case SDLK_DOWN:
+            return KEYDOWN;
+        case SDLK_a:
+            return 'a';
+        case SDLK_w:
+            return 'w';
+        case SDLK_s:
+            return 's';
+        case SDLK_d:
+            return 'd';
+    }
+}
+
+char LibSDL::getInput(bool input)
 {
     while( SDL_PollEvent(&_event)){
-        if(_event.type == SDL_QUIT) {
-            stop();
-            _quit = true;
-        } else if(_event.type == SDL_KEYDOWN) {
-            switch(_event.key.keysym.sym) {
-                case SDLK_UP:
-                    return KEYUP;
-                case SDLK_DOWN:
-                    return KEYDOWN;
-                case SDLK_LEFT:
-                    return KEYDOWN;
-                case SDLK_RIGHT:
-                    return KEYDOWN;
-                default:
-                    return KEYDOWN;
-            }
+        switch (_event.type) {
+            case SDL_QUIT:
+                stop();
+                _quit = true;
+                break;
+            case SDL_KEYDOWN:
+                return manageKey();
+            case SDL_MOUSEBUTTONDOWN:
+                if(_event.button.button == SDL_BUTTON_LEFT){
+                    SDL_GetMouseState(&_xMouse,&_yMouse);
+                    if (_xMouse >= 400 && _xMouse <= 600 && _yMouse >= 550 && _yMouse <= 650 && input == true) {
+                        SDL_RenderClear(_render);
+                        SDL_RenderPresent(_render);
+                        return MOUSELEFT;
+                    }
+                }
+                return 0;
         }
     }
 }
 
 void LibSDL::initMenu()
 {
-    SDL_SetRenderDrawColor(_render, BLACK);
-    SDL_RenderClear(_render);
-    displayRedSquare(SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4);
+    SDL_Color white = { WHITE };
+    SDL_Color black = { BLACK };
+    SDL_RenderCopy(_render, _texture_image, nullptr, nullptr);
+    _rect = { 350, 50, 300, 100 };
+    _text = TTF_RenderText_Solid(_font, "ARCADE", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 400, 550, 200, 100 };
+    _text = TTF_RenderText_Solid(_font, "Play", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    SDL_FreeSurface(_text);
+    SDL_DestroyTexture(_texture_text);
     SDL_RenderPresent(_render);
-}
-
-void LibSDL::initWindow() {
-    _window = nullptr;
-    _render = nullptr;
-
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    else {
-        _window = SDL_CreateWindow("SDL Tutorial",
-                                   SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                   SCREEN_WIDTH, SCREEN_HEIGHT,
-                                   SDL_WINDOW_SHOWN);
-        if (_window == nullptr) {
-            printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-            SDL_Quit();
-        } else {
-            _render = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-            if (_render == nullptr) {
-                printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-                SDL_Quit();
-            }
-        }
-    }
 }
 
 bool LibSDL::getQuit() {
@@ -124,7 +119,15 @@ bool LibSDL::getQuit() {
 
 void LibSDL::stop()
 {
+    //SDL_FreeSurface(_text);
+    //SDL_DestroyTexture(_texture_text);
+    //SDL_FreeSurface(_image);
+    //SDL_DestroyTexture(_texture_image);
+    //SDL_DestroyTexture(_);
+    //SDL_FreeSurface(_surface);
+//    TTF_CloseFont(_font);
     SDL_DestroyWindow(_window);
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -133,6 +136,7 @@ void LibSDL::displayBlackSquare(int x, int y)
     SDL_Rect fillRect = {x, y, SQUARE_SIZE};
     SDL_SetRenderDrawColor(_render, BLACK);
     SDL_RenderFillRect(_render, &fillRect);
+    SDL_RenderPresent(_render);
 }
 
 void LibSDL::displayWhiteSquare(int x, int y)
@@ -140,6 +144,7 @@ void LibSDL::displayWhiteSquare(int x, int y)
     SDL_Rect fillRect = {x, y, SQUARE_SIZE};
     SDL_SetRenderDrawColor(_render, WHITE);
     SDL_RenderFillRect(_render, &fillRect);
+    SDL_RenderPresent(_render);
 }
 
 void LibSDL::displayRedSquare(int x, int y)
@@ -147,6 +152,7 @@ void LibSDL::displayRedSquare(int x, int y)
     SDL_Rect fillRect = {x, y, SQUARE_SIZE};
     SDL_SetRenderDrawColor(_render, RED);
     SDL_RenderFillRect(_render, &fillRect);
+    SDL_RenderPresent(_render);
 }
 
 void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
@@ -159,6 +165,7 @@ void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
     _block_type.insert(std::make_pair('4', &LibSDL::displayWhiteSquare));
     _block_type.insert(std::make_pair('5', &LibSDL::displayWhiteSquare));
     _block_type.insert(std::make_pair('8', &LibSDL::displayRedSquare));
+    SDL_SetRenderDrawColor(_render, BLACK);
     int x = 0;
     int y = 0;
     for (auto &i: array) {
@@ -174,3 +181,11 @@ void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
     }
 }
 
+int LibSDL::getEvent() {
+    return (SDL_PollEvent(&_event));
+}
+
+char LibSDL::getUsername() {
+    if (_event.key.keysym.sym == SDL_TEXTINPUT)
+        return (static_cast<char>(*_event.text.text));
+}

@@ -7,31 +7,44 @@
 #ifndef GLOBALPROJECT_CORE_H
 #define GLOBALPROJECT_CORE_H
 
-#include "IGame.hpp"
 #include <cstring>
 #include <vector>
+#include <fstream>
 #include "iDisplayModule.hpp"
+#include "IGame.hpp"
 #include <dlfcn.h>
 #include <Utils.hpp>
 #include <Exception.hpp>
+#include <Utils.hpp>
+#include <Exception.hpp>
+
+#define NCURSES_FILE "arcade_ncurses.so"
+#define SFML_FILE "arcade_sfml.so"
+#define SDL2_FILE "arcade_sdl2.so"
 
 class Core {
-    public:
-        explicit Core(char **, IGame *);
-        ~Core() = default;
-        void loadlib(const std::string&);
-        void loadlibs();
-        int getNumLib(char *);
-        const std::vector<IDisplayModule *> &getLibs() const;
-        void gameLoop();
-        void sepEvents();
-
-    private:
-        std::vector<IDisplayModule*> _libs;
-        IDisplayModule *_lib;
-        char _key;
-        int _i;
-        IGame *_game;
+public:
+    Core(const std::string&);
+    ~Core() = default;
+    const std::vector<IDisplayModule *> &getLibs() const;
+    void loadlib(const std::string &lib_path, const std::string &active_path);
+    void loadgame(const std::string &game_path);
+    IDisplayModule *getActiveGfx() const;
+    const std::vector<IGame *> &getGames() const;
+    int getNumLib(std::string lib);
+    void gameLoop();
+    void sepEvents();
+    void manageEvents();
+private:
+    IDisplayModule *_activeGfx;
+    IGame *_activeGame;
+    std::vector<IDisplayModule*> _libs;
+    std::vector<IGame*> _games;
+    char _key;
+    int _i;
+    bool _menu;
+    bool _game;
+    std::string _name;
 };
 
 #endif //GLOBALPROJECT_CORE_H

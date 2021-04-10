@@ -31,8 +31,8 @@ class Player
         void moveLEFT();
         void moveRIGHT();
         int _direction;
-        int _x;
-        int _y;
+        int _x = 5;
+        int _y = 5;
 };
 
 #endif //GLOBALPROJECT_PLAYER_HPP

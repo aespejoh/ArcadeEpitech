@@ -9,5 +9,10 @@
 
 void utils::usagePrompt()
 {
-    std::cout << "Usage: ./arcade [graphic library file]" << std::endl;
+    std::cout << "USAGE" << std::endl;
+    std::cout << "./arcade [graphical library]" << std::endl;
+    std::cout << "Possible graphical libraries:" << std::endl;
+    std::cout << "\t- lib/arcade_sfml.so" << std::endl;
+    std::cout << "\t- lib/arcade_sdl2.so" << std::endl;
+    std::cout << "\t- lib/arcade_ncurses.so" << std::endl;
 }

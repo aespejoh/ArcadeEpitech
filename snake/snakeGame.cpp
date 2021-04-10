@@ -6,6 +6,12 @@
 */
 #include "snakeGame.hpp"
 
+extern "C" IGame* create()
+{
+    return new SnakeGame();
+}
+
+
 void SnakeGame::createMap(unsigned int width, unsigned int height)
 {
     array_t array(height, std::vector<char> (width, '7'));
@@ -26,6 +32,7 @@ void SnakeGame::createMap(unsigned int width, unsigned int height)
 
 void SnakeGame::loadMap()
 {
+    createMap(10,10);
 }
 
 array_t SnakeGame::getArray()
@@ -45,4 +52,26 @@ void SnakeGame::printMap()
             std::cout << e;
         std::cout << std::endl;
     }
+}
+
+void SnakeGame::update(char input)
+{
+    auto it = movement_Input.find(input);
+    if (it != movement_Input.end()) {
+        std::cout << input << std::endl;
+        put(getPlayer()->getY(), getPlayer()->getX(), EMPTY_SPACE);
+        getPlayer()->setDirection(it->second);
+        getPlayer()->move();
+        put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
+        printMap();
+    }
+}
+
+SnakeGame::SnakeGame()
+{
+    _player = new Player;
+    movement_Input.insert(std::make_pair('w', 1));
+    movement_Input.insert(std::make_pair('a', 3));
+    movement_Input.insert(std::make_pair('s', 2));
+    movement_Input.insert(std::make_pair('d', 4));
 }

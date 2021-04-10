@@ -10,6 +10,7 @@
 #include "inputs.h"
 #include <iostream>
 #include <vector>
+#include <Exception.hpp>
 
 typedef std::vector<std::vector<char>> array_t;
 
@@ -22,12 +23,12 @@ class IDisplayModule {
         virtual ~IDisplayModule() = default;
         virtual bool isActive() = 0;
         virtual void refresh() = 0;
-        virtual char getInput() = 0;
+        virtual char getInput(bool) = 0;
         virtual void printLevel(array_t array, unsigned int height, unsigned int width) = 0;
-
+        virtual char getUsername() = 0;
         virtual void initMenu() = 0;
-        virtual void initWindow() = 0;
         virtual bool getQuit() = 0;
+        virtual int getEvent() = 0;
     protected:
         std::string _name;
         bool _quit = false;

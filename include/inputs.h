@@ -7,9 +7,10 @@
 #ifndef GLOBALPROJECT_INPUTS_H
 #define GLOBALPROJECT_INPUTS_H
 
-enum KEY {
+enum EVENTS {
     KEYUP = 1,
     KEYDOWN,
+    MOUSELEFT,
 };
 
 #endif //GLOBALPROJECT_INPUTS_H
