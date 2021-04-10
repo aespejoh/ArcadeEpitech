@@ -12,13 +12,25 @@ extern "C" int destroy()
     return 0;
 }
 
+Libncurses::Libncurses() {
+    displayMap.insert(std::make_pair('A', &Libncurses::printPlayer));
+    displayMap.insert(std::make_pair('0', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('1', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('2', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('3', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('4', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('5', &Libncurses::printWall));
+    displayMap.insert(std::make_pair('7', &Libncurses::printBlank));
+    displayMap.insert(std::make_pair('8', &Libncurses::printFood));
+}
+
 void Libncurses::init()
 {
     initscr();
     erase();
-    printw("Welcome to NCurses!");
     noecho();
-    keypad(stdscr, TRUE);
+    nodelay(stdscr, true);
+    keypad(stdscr, true);
     curs_set(0);
 }
 
@@ -55,11 +67,40 @@ void Libncurses::printLevel(array_t array, unsigned int height,
     unsigned int width
 )
 {
-    for (auto pixel : array) {
-        for (auto i : pixel) {
-            std::cout << i << std::endl;
+    int f = 0;
+    int s = 0;
+
+    for (std::vector<char> line : array) {
+        for (char pixel : line) {
+            auto it = displayMap.find(pixel);
+            if (it == displayMap.end())
+                continue;
+            (this->*it->second)(s, f);
+            f++;
         }
+        f = 0;
+        s++;
     }
+}
+
+void Libncurses::printWall(int x, int y)
+{
+    mvprintw(x, y, "#");
+}
+
+void Libncurses::printBlank(int x, int y)
+{
+    mvprintw(x, y, " ");
+}
+
+void Libncurses::printPlayer(int x, int y)
+{
+    mvprintw(x, y, "P");
+}
+
+void Libncurses::printFood(int x, int y)
+{
+    mvprintw(x, y, "F");
 }
 
 void Libncurses::initMenu() {

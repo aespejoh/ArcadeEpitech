@@ -67,19 +67,19 @@ char LibSDL::getInput()
         } else if(_event.type == SDL_KEYDOWN) {
             switch(_event.key.keysym.sym) {
                 case SDLK_UP:
-                    std::cout << "key up" << std::endl;
+                    //std::cout << "key up" << std::endl;
                     return KEYUP;
                 case SDLK_DOWN:
-                    std::cout << "key down" << std::endl;
+                    //std::cout << "key down" << std::endl;
                     return KEYDOWN;
                 case SDLK_LEFT:
-                    std::cout << "key left" << std::endl;
+                    //std::cout << "key left" << std::endl;
                     return KEYDOWN;
                 case SDLK_RIGHT:
-                    std::cout << "key right" << std::endl;
+                    //std::cout << "key right" << std::endl;
                     return KEYDOWN;
                 default:
-                    std::cout << "key up" << std::endl;
+                    //std::cout << "key up" << std::endl;
                     return KEYDOWN;
             }
         }

@@ -2,13 +2,14 @@
 #define LIB1_LIBRARY_H
 
 #include <ncurses.h>
+#include <map>
 #include "iDisplayModule.hpp"
 
 void hello();
 
 class Libncurses : public IDisplayModule {
     public:
-        Libncurses(){};
+        Libncurses();
         ~Libncurses() override = default;
         bool isActive() override;
         void refresh() override;
@@ -21,6 +22,14 @@ private:
     void init() override;
     void stop() override;
     const std::string &getName() const override;
+
+    void printWall(int x, int y);
+    void printBlank(int x, int y);
+    void printPlayer(int x, int y);
+    void printFood(int x, int y);
+
+    typedef void (Libncurses::*fnc_ptr)(int, int);
+    std::map<char, fnc_ptr> displayMap;
 };
 
 
