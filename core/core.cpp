@@ -104,8 +104,7 @@ void Core::gameLoop()
         else {
             _activeGame->update(_key);
             _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
-        }
-        sepEvents();
+        }sepEvents();
         _activeGfx->refresh();
     }
     _activeGfx->stop();
@@ -113,20 +112,27 @@ void Core::gameLoop()
 
 void Core::sepEvents()
 {
-    if (_key == KEYUP) {
-        _i += 1;
-        if (_i > 2)
-            _i = 0;
-        _activeGfx->stop();
-        _activeGfx = getLibs()[_i];
-        _activeGfx->init();
-    }
-    if (_key == KEYDOWN) {
-        _i -= 1;
-        if (_i < 0)
-            _i = 2;
-        _activeGfx->stop();
-        _activeGfx = getLibs()[_i];
-        _activeGfx->init();
+    switch (_key) {
+        case KEYUP:
+            _i += 1;
+            if (_i > 2)
+                _i = 0;
+            _activeGfx->stop();
+            _activeGfx = getLibs()[_i];
+            _activeGfx->init();
+            break;
+        case KEYDOWN:
+            _i -= 1;
+            if (_i < 0)
+                _i = 2;
+            _activeGfx->stop();
+            _activeGfx = getLibs()[_i];
+            _activeGfx->init();
+            break;
+        case MOUSELEFT:
+            _menu = false;
+            _game = true;
+            _activeGfx->clearScreen();
+            break;
     }
 }

@@ -55,36 +55,36 @@ void LibSDL::refresh()
 char LibSDL::manageKeyFalse()
 {
     switch (_event.key.keysym.sym) {
-    case SDLK_UP:
-        return KEYUP;
-    case SDLK_DOWN:
-        return KEYDOWN;
-    case SDLK_BACKSPACE:
-        if (_username.length() > 0)
-            _username.pop_back();
-        break;
-    case SDLK_a:
-        return 'a';
-    case SDLK_w:
-        return 'w';
-    case SDLK_s:
-        return 's';
-    case SDLK_d:
-        return 'd';
+        case SDLK_UP:
+            return KEYUP;
+        case SDLK_DOWN:
+            return KEYDOWN;
+        case SDLK_BACKSPACE:
+            if (_username.length() > 0)
+                _username.pop_back();
+            break;
+        case SDLK_a:
+            return 'a';
+        case SDLK_w:
+            return 'w';
+        case SDLK_s:
+            return 's';
+        case SDLK_d:
+            return 'd';
     }
 }
 
 char LibSDL::manageKeyTrue()
 {
     switch (_event.key.keysym.sym) {
-    case SDLK_UP:
-        return KEYUP;
-    case SDLK_DOWN:
-        return KEYDOWN;
-    case SDLK_BACKSPACE:
-        if (_username.length() > 0)
-            _username.pop_back();
-        return BACKSPACE;
+        case SDLK_UP:
+            return KEYUP;
+        case SDLK_DOWN:
+            return KEYDOWN;
+        case SDLK_BACKSPACE:
+            if (_username.length() > 0)
+                _username.pop_back();
+            return BACKSPACE;
     }
 }
 
@@ -92,26 +92,25 @@ char LibSDL::getInput(bool input)
 {
     while( SDL_PollEvent(&_event)){
         switch (_event.type) {
-        case SDL_QUIT:
-            stop();
-            _quit = true;
-            break;
-        case SDL_TEXTINPUT:
-            _username += (static_cast<char>(*_event.text.text));
-            break;
-        case SDL_KEYDOWN:
-            if (input)
-                return manageKeyTrue();
-            else
-                return manageKeyFalse();
-        case SDL_MOUSEBUTTONDOWN:
-            if(_event.button.button == SDL_BUTTON_LEFT){
-                SDL_GetMouseState(&_xMouse,&_yMouse);
-                if (_xMouse >= 400 && _xMouse <= 600 && _yMouse >= 550 && _yMouse <= 650 && input == true) {
-                    return MOUSELEFT;
+            case SDL_QUIT:
+                stop();
+                _quit = true;
+                break;
+            case SDL_TEXTINPUT:
+                _username += (static_cast<char>(*_event.text.text));
+                break;
+            case SDL_KEYDOWN:
+                if (input)
+                    return manageKeyTrue();
+                else
+                    return manageKeyFalse();
+            case SDL_MOUSEBUTTONDOWN:
+                if(_event.button.button == SDL_BUTTON_LEFT){
+                    SDL_GetMouseState(&_xMouse,&_yMouse);
+                    if (_xMouse >= 400 && _xMouse <= 600 && _yMouse >= 550 && _yMouse <= 650 && input)
+                        return MOUSELEFT;
                 }
-            }
-            return 0;
+                return 0;
         }
     }
 }
@@ -180,8 +179,8 @@ void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
     _block_type.insert(std::make_pair('3', &LibSDL::displayWhiteSquare));
     _block_type.insert(std::make_pair('4', &LibSDL::displayWhiteSquare));
     _block_type.insert(std::make_pair('5', &LibSDL::displayWhiteSquare));
-    _block_type.insert(std::make_pair('8', &LibSDL::displayRedSquare));
-    SDL_SetRenderDrawColor(_render, BLACK);
+    _block_type.insert(std::make_pair('A', &LibSDL::displayRedSquare));
+    _block_type.insert(std::make_pair('8', &LibSDL::displayBlueCircle));
     int x = 0;
     int y = 0;
     for (auto &i: array) {
@@ -221,4 +220,12 @@ void LibSDL::displayText(const char *text, SDL_Rect rect, TTF_Font *font)
     _text = TTF_RenderText_Solid(font, text, _white);
     _texture_text = SDL_CreateTextureFromSurface(_render, _text);
     SDL_RenderCopy(_render, _texture_text, nullptr, &rect);
+}
+
+void LibSDL::displayBlueCircle(int x, int y)
+{
+    SDL_Rect fillRect = {x, y, SQUARE_SIZE};
+    SDL_SetRenderDrawColor(_render, BLUE);
+    SDL_RenderFillRect(_render, &fillRect);
+    SDL_RenderPresent(_render);
 }
