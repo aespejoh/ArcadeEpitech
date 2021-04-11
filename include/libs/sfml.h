@@ -24,9 +24,9 @@ class LibSFML : public IDisplayModule {
         ) override;
         void initMenu() override;
         bool getQuit() override;
-        int getEvent() override;
         std::string getUsername() override;
         void printInfo(std::string, std::string, std::string) override;
+        void clearScreen() override;
     private:
         void init() override;
         void stop() override;

@@ -70,14 +70,14 @@ bool Libncurses::getQuit() {
     return _quit;
 }
 
-int Libncurses::getEvent() {
-    return 0;
-}
-
 std::string Libncurses::getUsername() {
     return std::string();
 }
 
 void Libncurses::printInfo(std::string, std::string, std::string) {
+
+}
+
+void Libncurses::clearScreen() {
 
 }

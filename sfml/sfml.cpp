@@ -141,14 +141,14 @@ bool LibSFML::getQuit()
     return _quit;
 }
 
-int LibSFML::getEvent() {
-    return 0;
-}
-
 std::string LibSFML::getUsername() {
     return std::string();
 }
 
 void LibSFML::printInfo(std::string, std::string, std::string) {
+
+}
+
+void LibSFML::clearScreen() {
 
 }

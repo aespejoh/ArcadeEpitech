@@ -81,11 +81,9 @@ char LibSDL::manageKeyTrue()
         case SDLK_DOWN:
             return KEYDOWN;
         case SDLK_BACKSPACE:
-            if (_username.length() <= 4)
-                std::cout << "backspace " << _username.length() << std::endl;
             if (_username.length() > 0)
                 _username.pop_back();
-            break;
+            return BACKSPACE;
     }
 }
 
@@ -94,27 +92,21 @@ char LibSDL::getInput(bool input)
     while( SDL_PollEvent(&_event)){
         switch (_event.type) {
             case SDL_QUIT:
-                std::cout << "quit" << std::endl;
                 stop();
                 _quit = true;
                 break;
             case SDL_TEXTINPUT:
-                std::cout << "text input" << std::endl;
                 _username += (static_cast<char>(*_event.text.text));
                 break;
             case SDL_KEYDOWN:
-                std::cout << "key down" << std::endl;
                 if (input)
                     return manageKeyTrue();
                 else
                     return manageKeyFalse();
             case SDL_MOUSEBUTTONDOWN:
-                std::cout << "mouse button" << std::endl;
                 if(_event.button.button == SDL_BUTTON_LEFT){
                     SDL_GetMouseState(&_xMouse,&_yMouse);
                     if (_xMouse >= 400 && _xMouse <= 600 && _yMouse >= 550 && _yMouse <= 650 && input == true) {
-                        SDL_RenderClear(_render);
-                        SDL_RenderPresent(_render);
                         return MOUSELEFT;
                     }
                 }
@@ -126,7 +118,6 @@ char LibSDL::getInput(bool input)
 void LibSDL::initMenu()
 {
     SDL_Color white = { 255, 255, 255 };
-    SDL_Color black = { 0, 0, 0 };
     SDL_RenderCopy(_render, _texture_image, nullptr, nullptr);
     _rect = { 350, 50, 300, 100 };
     _text = TTF_RenderText_Solid(_font, "ARCADE", white);
@@ -148,12 +139,14 @@ void LibSDL::initMenu()
     _text = TTF_RenderText_Solid(_font_two, "Lib:", white);
     _texture_text = SDL_CreateTextureFromSurface(_render, _text);
     SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    /*_rect = { 170, 300, 125, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Game:", black);
+    _rect = { 50, 500, 250, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Key Up -> Next Lib", white);
     _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);*/
-    //printGame();
-    //SDL_RenderPresent(_render);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    _rect = { 50, 550, 300, 50 };
+    _text = TTF_RenderText_Solid(_font_two, "Key Down -> Prev Lib", white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
 }
 
 void LibSDL::printInfo(std::string username, std::string lib, std::string game)
@@ -180,13 +173,6 @@ bool LibSDL::getQuit() {
 
 void LibSDL::stop()
 {
-    //SDL_FreeSurface(_text);
-    //SDL_DestroyTexture(_texture_text);
-    //SDL_FreeSurface(_image);
-    //SDL_DestroyTexture(_texture_image);
-    //SDL_DestroyTexture(_);
-    //SDL_FreeSurface(_surface);
-//    TTF_CloseFont(_font);
     SDL_DestroyWindow(_window);
     TTF_Quit();
     SDL_Quit();
@@ -242,10 +228,6 @@ void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
     }
 }
 
-int LibSDL::getEvent() {
-    return (SDL_PollEvent(&_event));
-}
-
 std::string LibSDL::getUsername()
 {
     return _username;
@@ -256,4 +238,11 @@ LibSDL::LibSDL()
     _name = "sdl2";
     _window = nullptr;
     _render = nullptr;
+}
+
+void LibSDL::clearScreen()
+{
+    SDL_SetRenderDrawColor(_render, BLACK);
+    SDL_RenderClear(_render);
+    SDL_RenderPresent(_render);
 }

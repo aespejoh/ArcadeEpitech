@@ -34,7 +34,6 @@ public:
     int getNumLib(std::string lib);
     void gameLoop();
     void sepEvents();
-    void manageEvents();
 private:
     IDisplayModule *_activeGfx;
     IGame *_activeGame;

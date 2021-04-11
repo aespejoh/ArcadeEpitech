@@ -28,8 +28,8 @@ class IDisplayModule {
         virtual std::string getUsername() = 0;
         virtual void initMenu() = 0;
         virtual bool getQuit() = 0;
-        virtual int getEvent() = 0;
         virtual void printInfo(std::string, std::string, std::string) = 0;
+        virtual void clearScreen() = 0;
     protected:
         std::string _name;
         bool _quit = false;

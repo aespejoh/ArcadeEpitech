@@ -11,6 +11,7 @@ enum EVENTS {
     KEYUP = 1,
     KEYDOWN,
     MOUSELEFT,
+    BACKSPACE,
 };
 
 #endif //GLOBALPROJECT_INPUTS_H

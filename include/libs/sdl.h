@@ -24,8 +24,8 @@ public:
     bool getQuit() override;
     char manageKeyTrue();
     char manageKeyFalse();
-    int getEvent() override;
     std::string getUsername() override;
+    void clearScreen() override;
 
 private:
     void init() override;

@@ -100,11 +100,11 @@ void Core::gameLoop()
     while (!_activeGfx->getQuit()) {
         _key = _activeGfx->getInput(_menu);
         //_activeGame->update(_key);
-        if (_menu)
+        if (_menu) {
             _name = _activeGfx->getUsername();
-        _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
-        if (_menu)
             _activeGfx->initMenu();
+            _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
+        }
         else
             _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
         sepEvents();
@@ -135,13 +135,7 @@ void Core::sepEvents()
         case MOUSELEFT:
             _menu = false;
             _game = true;
+            _activeGfx->clearScreen();
             break;
-    }
-}
-
-void Core::manageEvents()
-{
-    while (_activeGfx->getEvent()) {
-
     }
 }
