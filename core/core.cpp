@@ -25,8 +25,6 @@ void Core::loadlib(const std::string& lib_path, const std::string &active_path)
     if (active_path.find(lib_path) != std::string::npos)
         _activeGfx = lib;
     _libs.push_back(lib);
-    //if (dlclose(handle) != 0)
-    //    exit(84);
 }
 
 const std::vector<IDisplayModule *> &Core::getLibs() const
