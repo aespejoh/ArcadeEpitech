@@ -26,6 +26,7 @@ public:
     char manageKeyFalse();
     std::string getUsername() override;
     void clearScreen() override;
+    void displayText(const char *, SDL_Rect, TTF_Font *);
 
 private:
     void init() override;
@@ -42,6 +43,7 @@ private:
     SDL_Surface	*_image;
     SDL_Texture *_texture_image;
     SDL_Texture *_texture_text;
+    SDL_Color _white;
     int _xMouse;
     int _yMouse;
     void displayRedSquare(int, int);

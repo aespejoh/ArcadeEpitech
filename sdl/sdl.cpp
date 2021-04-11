@@ -23,6 +23,7 @@ extern "C" IDisplayModule* create()
 
 void LibSDL::init()
 {
+    _white = { 255, 255, 255 };
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         _quit = true;
     TTF_Init();
@@ -117,53 +118,21 @@ char LibSDL::getInput(bool input)
 
 void LibSDL::initMenu()
 {
-    SDL_Color white = { 255, 255, 255 };
     SDL_RenderCopy(_render, _texture_image, nullptr, nullptr);
-    _rect = { 350, 50, 300, 100 };
-    _text = TTF_RenderText_Solid(_font, "ARCADE", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 400, 550, 200, 100 };
-    _text = TTF_RenderText_Solid(_font, "Play", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 150, 200, 225, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Username:", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 150, 300, 125, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Game:", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 150, 400, 125, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Lib:", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 50, 500, 250, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Key Up -> Next Lib", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 50, 550, 300, 50 };
-    _text = TTF_RenderText_Solid(_font_two, "Key Down -> Prev Lib", white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    displayText("ARCADE", { 350, 50, 300, 100 }, _font);
+    displayText("Play", { 400, 550, 200, 100 }, _font);
+    displayText("Username:", { 150, 200, 225, 50 }, _font_two);
+    displayText("Game:", { 150, 300, 125, 50 }, _font_two);
+    displayText("Lib:", { 150, 400, 125, 50 }, _font_two);
+    displayText("Key Up -> Next Lib", { 50, 500, 250, 50 }, _font_two);
+    displayText( "Key Down -> Prev Lib", { 50, 550, 300, 50 }, _font_two);
 }
 
 void LibSDL::printInfo(std::string username, std::string lib, std::string game)
 {
-    SDL_Color white = { 255, 255, 255 };
-    _rect = { 600, 200, static_cast<int>((username.length() * 25)), 50 };
-    _text = TTF_RenderText_Solid(_font_two, username.c_str(), white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 600, 400, 125, 50 };
-    _text = TTF_RenderText_Solid(_font_two, lib.c_str(), white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
-    _rect = { 600, 300, 125, 50 };
-    _text = TTF_RenderText_Solid(_font_two, game.c_str(), white);
-    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
-    SDL_RenderCopy(_render, _texture_text, nullptr, &_rect);
+    displayText(username.c_str(), { 600, 200, static_cast<int>((username.length() * 25)), 50 }, _font_two);
+    displayText(lib.c_str(), { 600, 400, 125, 50 }, _font_two);
+    displayText(game.c_str(), { 600, 300, 125, 50 }, _font_two);
     SDL_RenderPresent(_render);
 }
 
@@ -245,4 +214,11 @@ void LibSDL::clearScreen()
     SDL_SetRenderDrawColor(_render, BLACK);
     SDL_RenderClear(_render);
     SDL_RenderPresent(_render);
+}
+
+void LibSDL::displayText(const char *text, SDL_Rect rect, TTF_Font *font)
+{
+    _text = TTF_RenderText_Solid(font, text, _white);
+    _texture_text = SDL_CreateTextureFromSurface(_render, _text);
+    SDL_RenderCopy(_render, _texture_text, nullptr, &rect);
 }
