@@ -34,6 +34,9 @@ class LibSFML : public IDisplayModule {
         void drawWhiteSquare(int x, int y);
         void drawRedSquare(int x, int y);
         void drawBlueCircle(int x, int y);
+        std::string getUsername() override;
+        void printInfo(std::string, std::string, std::string) override;
+        void clearScreen() override;
     //void init(const array_t& array);
 };
 
