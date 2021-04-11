@@ -1,6 +1,6 @@
-#include "libs/sdl.h"
+#include "sdl.h"
 #include <iostream>
-#include <libncurses.h>
+#include "../ncurses/libncurses.h"
 
 #define RED 255, 0, 0, 0.7
 #define COLOR 104, 227, 165, 0.9
@@ -33,8 +33,8 @@ void LibSDL::init()
     _render = SDL_CreateRenderer(_window, -1, 0);
     SDL_SetRenderDrawColor(_render, WHITE);
     _image = IMG_Load("./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg");
-    _font = TTF_OpenFont("./OpenSans-Bold.ttf", 50);
-    _font_two = TTF_OpenFont("./OpenSans-Bold.ttf", 25);
+    _font = TTF_OpenFont(FONTONE_PATH, 50);
+    _font_two = TTF_OpenFont(FONTTWO_PATH, 25);
     _texture_image = SDL_CreateTextureFromSurface(_render, _image);
 }
 

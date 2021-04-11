@@ -5,7 +5,7 @@
 #include <map>
 #include "iDisplayModule.hpp"
 #include <iostream>
-#include "Exception.hpp"
+#include "exception.hpp"
 
 #define WALL '#'
 #define BLANK ' '

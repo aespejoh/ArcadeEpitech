@@ -12,8 +12,8 @@
 #include "inputs.h"
 
 #define BACKGROUND_PATH "./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg"
-#define FONTONE_PATH "./OpenSans-Bold.ttf"
-#define FONTTWO_PATH "./OpenSans-Bold.ttf"
+#define FONTONE_PATH "./resources/font/OpenSans-Bold.ttf"
+#define FONTTWO_PATH "./resources/font/OpenSans-Bold.ttf"
 #define WIN_H 768
 #define WIN_W 1366
 
@@ -22,7 +22,7 @@ class LibSFML : public IDisplayModule {
     typedef std::map<char, fnc_ptr> map_t;
     public:
         LibSFML();
-        ~LibSFML() override;
+        ~LibSFML() override = default;
         bool isActive() override;
         void refresh() override;
         char getInput(bool) override;

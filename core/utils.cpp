@@ -5,7 +5,7 @@
 ** Utils
 */
 
-#include "Utils.hpp"
+#include "utils.hpp"
 
 void utils::usagePrompt()
 {

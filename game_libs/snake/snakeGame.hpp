@@ -13,7 +13,7 @@
 #include <iostream>
 #include <cstdio>
 #include <ctime>
-#include <Exception.hpp>
+#include <exception.hpp>
 #include <cmath>
 #include <random>
 
@@ -27,9 +27,9 @@
 class SnakeGame : public IGame {
     public:
         SnakeGame();
+        ~SnakeGame() = default;
         void put(unsigned int y, unsigned int x, char item) override;
         void createMap(unsigned int width, unsigned int height);
-        void printMap();
         void loadMap() override;
         array_t getArray() override;
         void update(char input) override;

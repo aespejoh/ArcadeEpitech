@@ -8,6 +8,9 @@
 #include <map>
 #include "iDisplayModule.hpp"
 
+#define FONTONE_PATH "./resources/font/OpenSans-Bold.ttf"
+#define FONTTWO_PATH "./resources/font/OpenSans-Bold.ttf"
+
 class LibSDL : public IDisplayModule {
     typedef void (LibSDL::*fnc_ptr)(int, int);
     typedef std::map<char, fnc_ptr> map_t;

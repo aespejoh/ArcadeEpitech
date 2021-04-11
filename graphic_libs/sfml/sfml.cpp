@@ -5,7 +5,7 @@
 ** Created by aespejo,
 */
 
-#include "libs/sfml.h"
+#include "sfml.h"
 
 extern "C" IDisplayModule* create()
 {
@@ -182,11 +182,6 @@ void LibSFML::printInfo(std::string username, std::string lib, std::string game)
     _lib_txt.setString("Lib:\t\t" + lib);
     //_game_txt.setString("Game:\t\t" + game);
     _username_txt.setString("Player:\t\t" + username);
-}
-
-LibSFML::~LibSFML()
-{
-
 }
 
 char LibSFML::manageMenu(sf::Event event)

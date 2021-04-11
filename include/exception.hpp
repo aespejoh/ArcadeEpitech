@@ -13,11 +13,11 @@
 
 class MainException : public std::exception {
     public:
-    MainException();
-    MainException(std::string str);
-    ~MainException() = default;
+        MainException();
+        MainException(std::string str);
+        ~MainException() = default;
 
-    char const *what() const noexcept;
+        char const *what() const noexcept;
 
     private:
         std::string exceptionMessage;

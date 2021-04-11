@@ -5,7 +5,7 @@
 ** Exception
 */
 
-#include "Exception.hpp"
+#include "exception.hpp"
 
 MainException::MainException()
 {

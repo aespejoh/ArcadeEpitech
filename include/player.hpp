@@ -29,6 +29,7 @@ class Player
         int getY() const;
         void setPosition(int y, int x);
         void move();
+
     protected:
         map_t _map;
         void moveUP();

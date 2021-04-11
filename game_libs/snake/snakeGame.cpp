@@ -52,15 +52,6 @@ void SnakeGame::put(unsigned int y, unsigned int x, char item)
     }
 }
 
-void SnakeGame::printMap()
-{
-    for (auto &i : _array) {
-        for (auto &e: i)
-            std::cout << e;
-        std::cout << std::endl;
-    }
-}
-
 void SnakeGame::update(char input)
 {
     _current = clock();
@@ -155,6 +146,7 @@ int SnakeGame::check_ahead()
             return IS_FOOD;
         return IS_EMPTY;
     }
+    return 0;
 }
 
 int SnakeGame::check_pos(int x, int y)

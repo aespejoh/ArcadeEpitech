@@ -13,10 +13,10 @@
 #include "iDisplayModule.hpp"
 #include "IGame.hpp"
 #include <dlfcn.h>
-#include <Utils.hpp>
-#include <Exception.hpp>
-#include <Utils.hpp>
-#include <Exception.hpp>
+#include <utils.hpp>
+#include <exception.hpp>
+#include <utils.hpp>
+#include <exception.hpp>
 #include <unistd.h>
 
 #define NCURSES_FILE "arcade_ncurses.so"
@@ -29,6 +29,7 @@ class Core {
         Core(const std::string&);
         ~Core() = default;
         void mainLoop();
+
     private:
         const std::vector<IDisplayModule *> &getLibs() const;
         IDisplayModule *getActiveGfx() const;
@@ -50,7 +51,6 @@ class Core {
         bool _game;
         bool _running = true;
         std::string _name;
-
 };
 
 #endif //GLOBALPROJECT_CORE_H

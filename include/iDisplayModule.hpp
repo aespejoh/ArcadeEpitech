@@ -10,7 +10,7 @@
 #include "inputs.h"
 #include <iostream>
 #include <vector>
-#include <Exception.hpp>
+#include <exception.hpp>
 
 typedef std::vector<std::vector<char>> array_t;
 
