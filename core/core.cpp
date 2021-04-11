@@ -124,6 +124,8 @@ void Core::menuLoop()
     _name = _activeGfx->getUsername();
     _activeGfx->initMenu();
     _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
+    if (_activeGfx->getQuit())
+        _running = false;
     if (_key == '1' || _key == MOUSELEFT) {
         _activeGame = _games[0];
         _activeGame->loadMap();
