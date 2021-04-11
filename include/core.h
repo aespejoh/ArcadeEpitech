@@ -21,28 +21,33 @@
 #define NCURSES_FILE "arcade_ncurses.so"
 #define SFML_FILE "arcade_sfml.so"
 #define SDL2_FILE "arcade_sdl2.so"
+#define NIBBLER_PATH "./lib/arcade_nibbler.so"
 
 class Core {
     public:
         Core(const std::string&);
         ~Core() = default;
+        void mainLoop();
+    private:
         const std::vector<IDisplayModule *> &getLibs() const;
-        void loadlib(const std::string &lib_path, const std::string &active_path);
-        void loadgame(const std::string &game_path);
         IDisplayModule *getActiveGfx() const;
         const std::vector<IGame *> &getGames() const;
+        void loadlib(const std::string &lib_path, const std::string &active_path);
+        void loadgame(const std::string &game_path);
         int getNumLib(std::string lib);
         void gameLoop();
+        void menuLoop();
         void sepEvents();
-    private:
+        void resetGames();
         IDisplayModule *_activeGfx;
         IGame *_activeGame;
         std::vector<IDisplayModule*> _libs;
         std::vector<IGame*> _games;
         char _key;
         int _i;
-        bool _menu;
+        bool _menu = true;
         bool _game;
+        bool _running = true;
         std::string _name;
 
 };

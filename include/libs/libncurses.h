@@ -25,7 +25,6 @@ class Libncurses : public IDisplayModule {
         bool getQuit() override;
         std::string getUsername() override;
         void printInfo(std::string, std::string, std::string) override;
-        void clearScreen() override;
 private:
     void init() override;
     void stop() override;

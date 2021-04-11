@@ -91,6 +91,7 @@ void SnakeGame::SnakeLogic()
 
 SnakeGame::SnakeGame()
 {
+    _name = "nibbler";
     game_over = false;
     _current = clock();
     _last = _current;

@@ -25,7 +25,7 @@ public:
     char manageKeyTrue();
     char manageKeyFalse();
     std::string getUsername() override;
-    void clearScreen() override;
+    void clearScreen();
     void displayText(const char *, SDL_Rect, TTF_Font *);
 
 private:

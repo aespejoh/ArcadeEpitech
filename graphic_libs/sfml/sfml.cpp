@@ -14,7 +14,7 @@ extern "C" IDisplayModule* create()
 
 void LibSFML::init()
 {
-    _window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "");
+    _window = new sf::RenderWindow(sf::VideoMode(WIN_W, WIN_H), "");
 }
 
 void LibSFML::stop()
@@ -47,8 +47,11 @@ char LibSFML::getInput(bool input)
             return '\0';
         }
         if (input) {
-            manageMenu(event);
-            return '\0';
+            if (event.key.code == sf::Keyboard::Up)
+                return KEYUP;
+            if (event.key.code == sf::Keyboard::Down)
+                return KEYDOWN;
+            return manageMenu(event);
         }
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Up)
@@ -104,9 +107,19 @@ LibSFML::LibSFML()
     _background.setTexture(_background_image);
     _fontOne.loadFromFile(FONTONE_PATH);
     _fontTwo.loadFromFile(FONTTWO_PATH);
-    _username_txt.setFont(_fontOne);
-    _username_txt.setCharacterSize(50);
-    _username_txt.setPosition(0,0);
+    _title = sf::Text("ARCADE", _fontOne, 100);
+    _username_txt = sf::Text("", _fontOne, 50);
+    _game_txt = sf::Text("NIBBLER:\t PRESS 1\nPACMAN:\tPRESS 2", _fontOne, 50);
+    sf::FloatRect textRect = _title.getLocalBounds();
+    _title.setOrigin(textRect.left + textRect.width/2.0f,
+        textRect.top  + textRect.height/2.0f);
+    _username_txt.setOrigin(textRect.left + textRect.width/2.0f,
+        textRect.top  + textRect.height/2.0f);
+    _game_txt.setOrigin(textRect.left + textRect.width/2.0f,
+        textRect.top  + textRect.height/2.0f);
+    _title.setPosition(sf::Vector2f(WIN_W / 2.0f,WIN_H / 2.0f - 200));
+    _game_txt.setPosition(sf::Vector2f(WIN_W / 2.0f,WIN_H / 2.0f + 150));
+    _username_txt.setPosition(sf::Vector2f(WIN_W / 2.0f,WIN_H / 2.0f));
 }
 
 void LibSFML::drawBlackSquare(int x, int y)
@@ -149,7 +162,9 @@ void LibSFML::initMenu()
 {
     _window->draw(_background);
     _window->draw(_username_txt);
-
+    _window->draw(_lib_txt);
+    _window->draw(_game_txt);
+    _window->draw(_title);
 }
 
 bool LibSFML::getQuit()
@@ -159,15 +174,14 @@ bool LibSFML::getQuit()
 
 std::string LibSFML::getUsername()
 {
-    return std::string();
+    return _username;
 }
 
-void LibSFML::printInfo(std::string, std::string, std::string)
+void LibSFML::printInfo(std::string username, std::string lib, std::string game)
 {
-}
-
-void LibSFML::clearScreen()
-{
+    _lib_txt.setString("Lib:\t\t" + lib);
+    //_game_txt.setString("Game:\t\t" + game);
+    _username_txt.setString("Player:\t\t" + username);
 }
 
 LibSFML::~LibSFML()
@@ -178,10 +192,14 @@ LibSFML::~LibSFML()
 char LibSFML::manageMenu(sf::Event event)
 {
     if (event.type == sf::Event::TextEntered) {
-        if (event.text.unicode < 128) {
-            _username += static_cast<char>(event.text.unicode);
-            std::cout << _username << std::endl;
-            _username_txt.setString(_username);
-        }
+        int textSize = (int)_username.size();
+        unsigned short unicode = event.text.unicode;
+        if (unicode == '1' || unicode == '2')
+            return (char)unicode;
+        if (unicode == 8 && textSize > 0)
+            _username.erase(textSize - 1, 1);
+        if (isalpha(unicode))
+            _username += (char)unicode;
     }
+    return '\0';
 }
