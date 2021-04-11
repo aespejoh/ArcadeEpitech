@@ -1,7 +1,5 @@
 #include "libncurses.h"
 
-#include <iostream>
-
 extern "C" IDisplayModule* create()
 {
     return new Libncurses;
@@ -80,16 +78,7 @@ void Libncurses::printLevel(array_t array, unsigned int height,
 {
     int f = 0;
     int s = 0;
-    erase();
 
-    /*if (LINES <= height || COLS <= width) {
-        while (LINES <= height || COLS <= width) {
-            erase();
-            mvprintw(LINES / 2, COLS / 2, "Invalid Size");
-            refresh();
-        }
-        erase();
-    }*/
     for (std::vector<char> line : array) {
         for (char pixel : line) {
             auto it = displayMap.find(pixel);
@@ -141,17 +130,15 @@ void Libncurses::initMenu()
     mvprintw(LINES / 4 + 4, COLS / 3, "| (   ) || (\\ (   | |      | (   ) || |   ) || (      ");
     mvprintw(LINES / 4 + 5, COLS / 3, "| )   ( || ) \\ \\__| (____/\\| )   ( || (__/  )| (____/\\ ");
     mvprintw(LINES / 4 + 6, COLS / 3, "|/     \\||/   \\__/(_______/|/     \\|(______/ (_______/");
-    mvprintw(LINES / 2 + 1, COLS / 3 + 3, "USERNAME:");
-    mvprintw(LINES / 2 + 2, COLS / 3 + 3, "GAME:");
-    mvprintw(LINES / 2 + 3, COLS / 3 + 3, "LIBRARY:");
+    mvprintw(LINES / 2 , COLS / 3 + 3, "GAME:");
+    mvprintw(LINES / 2 + 1, COLS / 3 + 3, "LIBRARY:");
     mvprintw(LINES / 2 + 9, COLS / 2 - 20, "Press Enter to start playing");
 }
 
 void Libncurses::printInfo(std::string name, std::string lib, std::string game)
 {
-    mvprintw(LINES / 2 + 2, COLS / 3 + 3, name.c_str());
-    mvprintw(LINES / 2 + 2, COLS / 2, lib.c_str());
-    mvprintw(LINES / 2 + 3, COLS / 2, game.c_str());
+    mvprintw(LINES / 2, COLS / 2, lib.c_str());
+    mvprintw(LINES / 2 + 1, COLS / 2, game.c_str());
 }
 
 bool Libncurses::getQuit() {
