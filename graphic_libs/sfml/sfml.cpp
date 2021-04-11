@@ -53,7 +53,7 @@ char LibSFML::getInput(bool input)
                 return KEYDOWN;
             return manageMenu(event);
         }
-        if (event.type == sf::Event::KeyPressed) {
+        if (event.type == sf::Event::KeyPressed && input == false) {
             if (event.key.code == sf::Keyboard::Up)
                 return KEYUP;
             if (event.key.code == sf::Keyboard::Down)

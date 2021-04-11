@@ -17,6 +17,7 @@
 #include <Exception.hpp>
 #include <Utils.hpp>
 #include <Exception.hpp>
+#include <unistd.h>
 
 #define NCURSES_FILE "arcade_ncurses.so"
 #define SFML_FILE "arcade_sfml.so"

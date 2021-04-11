@@ -110,11 +110,11 @@ void Core::mainLoop()
     _activeGfx->init();
     while (_running) {
         _key = _activeGfx->getInput(_menu);
+        sepEvents();
         if (_menu)
             menuLoop();
         else
             gameLoop();
-        sepEvents();
         _activeGfx->refresh();
     }
     _activeGfx->stop();
@@ -142,6 +142,7 @@ void Core::sepEvents()
             if (_i > 2)
                 _i = 0;
             _activeGfx->stop();
+            usleep(100000);
             _activeGfx = getLibs()[_i];
             _activeGfx->init();
             break;
@@ -150,7 +151,8 @@ void Core::sepEvents()
             if (_i < 0)
                 _i = 2;
             _activeGfx->stop();
-            _activeGfx = getLibs()[_i];
+            usleep(100000);
+        _activeGfx = getLibs()[_i];
             _activeGfx->init();
             break;
     }
