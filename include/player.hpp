@@ -10,9 +10,9 @@
 #include <map>
 
 #define UP 1
-#define DOWN 2
-#define LEFT 3
-#define RIGHT 4
+#define RIGHT 2
+#define DOWN 3
+#define LEFT 4
 
 class Player
 {
@@ -23,6 +23,8 @@ class Player
         ~Player() = default;
         int getDirection() const;
         void setDirection(int direction);
+        void turnLeft();
+        void turnRight();
         int getX() const;
         int getY() const;
         void setPosition(int y, int x);

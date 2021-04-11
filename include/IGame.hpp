@@ -19,6 +19,7 @@
 #define LOWER_RIGHT_CORNER '4'
 #define LOWER_LEFT_CORNER '5'
 #define EMPTY_SPACE '7'
+#define HEAD 'A'
 
 typedef std::vector<std::vector<char>> array_t;
 
@@ -33,13 +34,9 @@ class IGame {
         virtual bool isGameOver() const = 0;
     protected:
         std::string _name;
-        typedef struct point {
-            int x;
-            int y;
-        }Point;
         array_t _array;
         Player *_player;
-        std::set<char>SOLID_OBJECT = {VERTICAL_LINE, HORIZONTAL_LINE};
+        std::set<char>SOLID_OBJECT = {VERTICAL_LINE, HORIZONTAL_LINE, HEAD};
 };
 
 #endif //GLOBALPROJECT_IGAME_HPP

@@ -36,7 +36,13 @@ class SnakeGame : public IGame {
         bool isGameOver() const override;
 
     private:
-        int height = 50;
+    struct point {
+        int x;
+        int y;
+        bool operator==(const point &rhs) const;
+        bool operator!=(const point &rhs) const;
+    };
+    int height = 50;
         int width = 50;
         void generateFood();
         bool game_over;
@@ -49,7 +55,7 @@ class SnakeGame : public IGame {
         int _len;
         void SnakeLogic();
         std::map<char, int> movement_Input;
-        std::vector<Point> _snake;
+        std::vector<point> _snake;
 };
 
 #endif //GLOBALPROJECT_SNAKEGAME_HPP

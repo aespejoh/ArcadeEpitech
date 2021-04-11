@@ -68,3 +68,16 @@ Player::Player()
     _map.insert(std::make_pair(RIGHT, &Player::moveRIGHT));
 }
 
+void Player::turnLeft()
+{
+    _direction--;
+    if (_direction < 1)
+        _direction = 4;
+}
+
+void Player::turnRight()
+{
+    _direction++;
+    if (_direction > 4)
+        _direction = 1;
+}

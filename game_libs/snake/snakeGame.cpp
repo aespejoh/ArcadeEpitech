@@ -76,17 +76,37 @@ void SnakeGame::update(char input)
             generateFood();
             _len++;
         }
+        SnakeLogic();
         getPlayer()->move();
     }
-    auto it = movement_Input.find(input);
-    if (it != movement_Input.end())
-        getPlayer()->setDirection(it->second);
+    if (input == 'a')
+        getPlayer()->turnLeft();
+    if (input == 'd')
+        getPlayer()->turnRight();
     put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
 }
 
 void SnakeGame::SnakeLogic()
 {
-
+    for (const auto &item : _snake)
+        put(item.y, item.x, EMPTY_SPACE);
+    auto it = _snake.begin();
+    point cord = {getPlayer()->getX(), getPlayer()->getY()};
+    _snake.push_back(cord);
+    if (_snake.size() > _len)
+        _snake.erase(_snake.begin());
+/*
+    it->x = getPlayer()->getX();
+    it->y = getPlayer()->getY();
+    it++;
+    while (it != _snake.end()) {
+        it->x = std::prev(it)->x;
+        it->y = std::prev(it)->y;
+        it++;
+    }
+*/
+    for (const auto &item : _snake)
+        put(item.y, item.x, HEAD);
 }
 
 SnakeGame::SnakeGame()
@@ -101,6 +121,8 @@ SnakeGame::SnakeGame()
     movement_Input.insert(std::make_pair('a', 3));
     movement_Input.insert(std::make_pair('s', 2));
     movement_Input.insert(std::make_pair('d', 4));
+    for (int i = 0; i < _len; i++)
+        _snake.emplace_back(point());
 }
 
 int SnakeGame::check_ahead()
@@ -157,4 +179,14 @@ void SnakeGame::generateFood()
         put(y, x, FOOD);
     else
         generateFood();
+}
+
+bool SnakeGame::point::operator==(const SnakeGame::point &rhs) const
+{
+    return x == rhs.x && y == rhs.y;
+}
+
+bool SnakeGame::point::operator!=(const SnakeGame::point &rhs) const
+{
+    return !(rhs == *this);
 }
