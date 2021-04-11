@@ -142,7 +142,3 @@ std::string Libncurses::getUsername()
 void Libncurses::printInfo(std::string, std::string, std::string)
 {
 }
-
-void Libncurses::clearScreen()
-{
-}

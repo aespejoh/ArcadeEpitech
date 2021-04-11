@@ -72,6 +72,7 @@ char LibSDL::manageKeyFalse()
         case SDLK_d:
             return 'd';
     }
+    return '\0';
 }
 
 char LibSDL::manageKeyTrue()
@@ -86,6 +87,7 @@ char LibSDL::manageKeyTrue()
                 _username.pop_back();
             return BACKSPACE;
     }
+    return '\0';
 }
 
 char LibSDL::getInput(bool input)
@@ -113,6 +115,7 @@ char LibSDL::getInput(bool input)
                 return 0;
         }
     }
+    return '\0';
 }
 
 void LibSDL::initMenu()
@@ -172,6 +175,7 @@ void LibSDL::displayRedSquare(int x, int y)
 
 void LibSDL::printLevel(array_t array, unsigned int height, unsigned int width)
 {
+    clearScreen();
     _block_type.insert(std::make_pair('7', &LibSDL::displayBlackSquare));
     _block_type.insert(std::make_pair('0', &LibSDL::displayWhiteSquare));
     _block_type.insert(std::make_pair('1', &LibSDL::displayWhiteSquare));

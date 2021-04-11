@@ -124,7 +124,7 @@ void Core::menuLoop()
     _name = _activeGfx->getUsername();
     _activeGfx->initMenu();
     _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
-    if (_key == '1') {
+    if (_key == '1' || _key == MOUSELEFT) {
         _activeGame = _games[0];
         _activeGame->loadMap();
         _menu = false;
@@ -148,11 +148,6 @@ void Core::sepEvents()
             _activeGfx->stop();
             _activeGfx = getLibs()[_i];
             _activeGfx->init();
-            break;
-        case MOUSELEFT:
-            _menu = false;
-            _game = true;
-            _activeGfx->clearScreen();
             break;
     }
 }

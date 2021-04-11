@@ -43,7 +43,6 @@ class LibSFML : public IDisplayModule {
         void drawBlueCircle(int x, int y);
         std::string getUsername() override;
         void printInfo(std::string, std::string, std::string) override;
-        void clearScreen() override;
         sf::Texture _background_image;
         sf::Sprite _background;
         sf::Font _fontOne;

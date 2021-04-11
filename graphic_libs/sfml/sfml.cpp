@@ -47,6 +47,10 @@ char LibSFML::getInput(bool input)
             return '\0';
         }
         if (input) {
+            if (event.key.code == sf::Keyboard::Up)
+                return KEYUP;
+            if (event.key.code == sf::Keyboard::Down)
+                return KEYDOWN;
             return manageMenu(event);
         }
         if (event.type == sf::Event::KeyPressed) {
@@ -178,10 +182,6 @@ void LibSFML::printInfo(std::string username, std::string lib, std::string game)
     _lib_txt.setString("Lib:\t\t" + lib);
     //_game_txt.setString("Game:\t\t" + game);
     _username_txt.setString("Player:\t\t" + username);
-}
-
-void LibSFML::clearScreen()
-{
 }
 
 LibSFML::~LibSFML()
