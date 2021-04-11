@@ -4,6 +4,13 @@
 #include <ncurses.h>
 #include <map>
 #include "iDisplayModule.hpp"
+#include "Exception.hpp"
+
+#define WALL '#'
+#define BLANK ' '
+#define PLAYER 'P'
+#define FOOD 'F'
+
 
 void hello();
 

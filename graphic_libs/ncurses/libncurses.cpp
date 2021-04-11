@@ -32,6 +32,13 @@ void Libncurses::init()
     nodelay(stdscr, true);
     keypad(stdscr, true);
     curs_set(0);
+    if (has_colors()) {
+        start_color();
+        init_pair(WALL, COLOR_CYAN, COLOR_CYAN);
+        init_pair(BLANK, COLOR_WHITE, COLOR_WHITE);
+        init_pair(PLAYER, COLOR_RED, COLOR_RED);
+        init_pair(FOOD, COLOR_BLUE, COLOR_BLUE);
+    }
 }
 
 void Libncurses::stop()
@@ -70,14 +77,20 @@ void Libncurses::printLevel(array_t array, unsigned int height,
     int f = 0;
     int s = 0;
 
-    // Check for screen size!!!!!!!
-    // Colors on things
+    if (LINES <= height || COLS <= width) {
+        while (LINES <= height || COLS <= width) {
+            erase();
+            mvprintw(LINES / 2, COLS / 2, "Invalid Size");
+            refresh();
+        }
+        erase();
+    }
     for (std::vector<char> line : array) {
         for (char pixel : line) {
             auto it = displayMap.find(pixel);
             if (it == displayMap.end())
                 continue;
-            (this->*it->second)(s, f);
+            (this->*it->second)(s + 2, f + width);
             f++;
         }
         f = 0;
@@ -87,22 +100,30 @@ void Libncurses::printLevel(array_t array, unsigned int height,
 
 void Libncurses::printWall(int x, int y)
 {
-    mvprintw(x, y, "#");
+    if (has_colors())
+        attron(COLOR_PAIR(WALL));
+    mvprintw(x, y, "%c", WALL);
 }
 
 void Libncurses::printBlank(int x, int y)
 {
-    mvprintw(x, y, " ");
+    if (has_colors())
+        attron(COLOR_PAIR(BLANK));
+    mvprintw(x, y, "%c", BLANK);
 }
 
 void Libncurses::printPlayer(int x, int y)
 {
-    mvprintw(x, y, "P");
+    if (has_colors())
+        attron(COLOR_PAIR(PLAYER));
+    mvprintw(x, y, "%c", PLAYER);
 }
 
 void Libncurses::printFood(int x, int y)
 {
-    mvprintw(x, y, "F");
+    if (has_colors())
+        attron(COLOR_PAIR(FOOD));
+    mvprintw(x, y, "%c", FOOD);
 }
 
 void Libncurses::initMenu() {
