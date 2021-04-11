@@ -133,6 +133,7 @@ void Libncurses::printFood(int x, int y)
 
 void Libncurses::initMenu()
 {
+    refresh();
     mvprintw(LINES / 4, COLS / 3, " _______  _______  _______  _______  ______   _______ ");
     mvprintw(LINES / 4 + 1, COLS / 3, "(  ___  )(  ____ )(  ____ \\(  ___  )(  __  \\ (  ____ \\");
     mvprintw(LINES / 4 + 2, COLS / 3, "| (   ) || (    )|| (    \\/| (   ) || (  \\  )| (    \\/");
@@ -151,7 +152,6 @@ void Libncurses::printInfo(std::string name, std::string lib, std::string game)
     mvprintw(LINES / 2 + 2, COLS / 3 + 3, name.c_str());
     mvprintw(LINES / 2 + 2, COLS / 2, lib.c_str());
     mvprintw(LINES / 2 + 3, COLS / 2, game.c_str());
-
 }
 
 bool Libncurses::getQuit() {
@@ -165,4 +165,12 @@ std::string Libncurses::getUsername()
 
 void Libncurses::clearScreen()
 {
+    if (has_colors()) {
+        attroff(COLOR_PAIR(FOOD));
+        attroff(COLOR_PAIR(PLAYER));
+        attroff(COLOR_PAIR(WALL));
+        attroff(COLOR_PAIR(BLANK));
+    }
+    erase();
+    refresh();
 }

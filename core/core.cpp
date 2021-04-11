@@ -96,6 +96,7 @@ void Core::gameLoop()
     if (_activeGfx->getQuit())
         _running = false;
     if (_activeGame->isGameOver()) {
+        _activeGfx->clearScreen();
         _menu = true;
         _activeGame = nullptr;
         resetGames();
