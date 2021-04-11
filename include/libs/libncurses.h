@@ -12,8 +12,6 @@
 #define FOOD 'F'
 
 
-void hello();
-
 class Libncurses : public IDisplayModule {
     public:
         Libncurses();
