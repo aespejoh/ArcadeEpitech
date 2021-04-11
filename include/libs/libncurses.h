@@ -22,7 +22,7 @@ class Libncurses : public IDisplayModule {
         void printLevel(array_t array, unsigned int height, unsigned int width
         ) override;
         void initMenu() override;
-        void clearScreen();
+        void clearScreen() override;
     bool getQuit() override;
         std::string getUsername() override;
         void printInfo(std::string, std::string, std::string) override;

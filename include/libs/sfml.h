@@ -30,6 +30,7 @@ class LibSFML : public IDisplayModule {
         ) override;
         void initMenu() override;
         bool getQuit() override;
+        void clearScreen() override;
     private:
         char manageMenu(sf::Event);
         void init() override;

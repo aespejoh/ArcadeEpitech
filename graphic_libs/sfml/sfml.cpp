@@ -203,3 +203,8 @@ char LibSFML::manageMenu(sf::Event event)
     }
     return '\0';
 }
+
+void LibSFML::clearScreen()
+{
+
+}
