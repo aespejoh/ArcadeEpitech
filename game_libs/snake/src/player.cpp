@@ -4,7 +4,7 @@
 ** File description:
 ** Created by aespejo,
 */
-#include "player.hpp"
+#include "../include/player.hpp"
 
 int Player::getDirection() const
 {

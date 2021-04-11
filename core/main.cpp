@@ -8,7 +8,7 @@
 #include <iostream>
 #include <core.h>
 #include <IGame.hpp>
-#include "../game_libs/snake/snakeGame.hpp"
+#include "../game_libs/snake/include/snakeGame.hpp"
 
 int main(int ac, char **av)
 {

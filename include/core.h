@@ -23,6 +23,7 @@
 #define SFML_FILE "arcade_sfml.so"
 #define SDL2_FILE "arcade_sdl2.so"
 #define NIBBLER_PATH "./lib/arcade_nibbler.so"
+#define LIBRARY_PATH "./lib/"
 
 class Core {
     public:

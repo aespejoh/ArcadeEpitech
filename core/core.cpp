@@ -12,7 +12,7 @@ void Core::loadlib(const std::string& lib_path, const std::string &active_path)
     IDisplayModule *lib;
     typedef IDisplayModule* (*fptr)();
     fptr func;
-    std::string fullPath = "./lib/" + lib_path;
+    std::string fullPath = LIBRARY_PATH + lib_path;
     void *handle = dlopen(fullPath.c_str() , RTLD_LAZY);
 
     if (!handle) {
@@ -27,7 +27,6 @@ void Core::loadlib(const std::string& lib_path, const std::string &active_path)
     _libs.push_back(lib);
     //if (dlclose(handle) != 0)
     //    exit(84);
-
 }
 
 const std::vector<IDisplayModule *> &Core::getLibs() const

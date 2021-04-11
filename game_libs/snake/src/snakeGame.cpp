@@ -4,7 +4,7 @@
 ** File description:
 ** Created by aespejo,
 */
-#include "snakeGame.hpp"
+#include "../include/snakeGame.hpp"
 
 extern "C" IGame* create()
 {

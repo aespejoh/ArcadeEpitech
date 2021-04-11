@@ -9,7 +9,7 @@
 
 #include <vector>
 #include <algorithm>
-#include <player.hpp>
+#include "../game_libs/snake/include/player.hpp"
 #include <set>
 
 #define VERTICAL_LINE '0'
