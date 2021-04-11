@@ -41,6 +41,10 @@ class Core {
         std::vector<IGame*> _games;
         char _key;
         int _i;
+        bool _menu;
+        bool _game;
+        std::string _name;
+
 };
 
 #endif //GLOBALPROJECT_CORE_H

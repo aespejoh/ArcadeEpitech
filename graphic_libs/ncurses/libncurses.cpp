@@ -60,7 +60,7 @@ void Libncurses::refresh()
 {
 }
 
-char Libncurses::getInput()
+char Libncurses::getInput(bool input)
 {
     int ch = getch();
     if (ch == KEY_UP)
@@ -132,4 +132,17 @@ void Libncurses::initMenu() {
 
 bool Libncurses::getQuit() {
     return _quit;
+}
+
+std::string Libncurses::getUsername()
+{
+    return std::string();
+}
+
+void Libncurses::printInfo(std::string, std::string, std::string)
+{
+}
+
+void Libncurses::clearScreen()
+{
 }

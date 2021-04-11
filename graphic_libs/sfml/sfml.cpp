@@ -37,7 +37,7 @@ void LibSFML::refresh()
     _window->display();
 }
 
-char LibSFML::getInput()
+char LibSFML::getInput(bool input)
 {
     sf::Event event{};
     while (_window->pollEvent(event)) {
@@ -94,6 +94,11 @@ LibSFML::LibSFML()
 {
     _name = "sfml";
     _window = nullptr;
+    if(!_background_image.loadFromFile(BACKGROUND_PATH))
+        exit(46);
+    _background.setTexture(_background_image);
+    _fontOne.loadFromFile(FONTONE_PATH);
+    _fontTwo.loadFromFile(FONTTWO_PATH);
 }
 
 void LibSFML::drawBlackSquare(int x, int y)
@@ -134,9 +139,23 @@ void LibSFML::drawBlueCircle(int x, int y)
 
 void LibSFML::initMenu()
 {
+
 }
 
 bool LibSFML::getQuit()
 {
     return _quit;
+}
+
+std::string LibSFML::getUsername()
+{
+    return std::string();
+}
+
+void LibSFML::printInfo(std::string, std::string, std::string)
+{
+}
+
+void LibSFML::clearScreen()
+{
 }

@@ -22,7 +22,7 @@ class IDisplayModule {
         virtual ~IDisplayModule() = default;
         virtual bool isActive() = 0;
         virtual void refresh() = 0;
-        virtual char getInput() = 0;
+        virtual char getInput(bool input) = 0;
         virtual void printLevel(array_t array, unsigned int height, unsigned int width) = 0;
         virtual std::string getUsername() = 0;
         virtual void initMenu() = 0;

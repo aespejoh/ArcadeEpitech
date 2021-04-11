@@ -11,6 +11,10 @@
 #include "iDisplayModule.hpp"
 #include "inputs.h"
 
+#define BACKGROUND_PATH "./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg"
+#define FONTONE_PATH "./OpenSans-Bold.ttf"
+#define FONTTWO_PATH "./OpenSans-Bold.ttf"
+
 class LibSFML : public IDisplayModule {
     typedef void (LibSFML::*fnc_ptr)(int x, int y);
     typedef std::map<char, fnc_ptr> map_t;
@@ -19,7 +23,7 @@ class LibSFML : public IDisplayModule {
         ~LibSFML() override = default;
         bool isActive() override;
         void refresh() override;
-        char getInput() override;
+        char getInput(bool) override;
         void printLevel(array_t array, unsigned int height, unsigned int width
         ) override;
         void initMenu() override;
@@ -37,6 +41,10 @@ class LibSFML : public IDisplayModule {
         std::string getUsername() override;
         void printInfo(std::string, std::string, std::string) override;
         void clearScreen() override;
+        sf::Texture _background_image;
+        sf::Sprite _background;
+        sf::Font _fontOne;
+        sf::Font _fontTwo;
     //void init(const array_t& array);
 };
 

@@ -16,7 +16,7 @@ public:
     ~LibSDL() override = default;
     bool isActive() override;
     void refresh() override;
-    char getInput() override;
+    char getInput(bool) override;
     void printLevel(array_t array, unsigned int height, unsigned int width
     ) override;
     void initMenu() override;

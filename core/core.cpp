@@ -95,9 +95,16 @@ void Core::gameLoop()
         throw MainException("No library has been found.\n");
     _activeGfx->init();
     while (!_activeGfx->getQuit()) {
-        _key = _activeGfx->getInput();
-        _activeGame->update(_key);
-        _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
+        _key = _activeGfx->getInput(_menu);
+        if (_menu) {
+            _name = _activeGfx->getUsername();
+            _activeGfx->initMenu();
+            _activeGfx->printInfo(_name, _activeGfx->getName(), "nibbler");
+        }
+        else {
+            _activeGame->update(_key);
+            _activeGfx->printLevel(_activeGame->getArray(), 10, 10);
+        }
         sepEvents();
         _activeGfx->refresh();
     }
