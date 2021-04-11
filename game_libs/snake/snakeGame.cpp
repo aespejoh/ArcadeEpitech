@@ -79,11 +79,8 @@ void SnakeGame::update(char input)
         getPlayer()->move();
     }
     auto it = movement_Input.find(input);
-    if (it != movement_Input.end()) {
-        //std::cout << input << std::endl;
+    if (it != movement_Input.end())
         getPlayer()->setDirection(it->second);
-        //printMap();
-    }
     put(getPlayer()->getY(), getPlayer()->getX(), HEAD);
 }
 

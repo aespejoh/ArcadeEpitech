@@ -49,6 +49,7 @@ private:
     void displayRedSquare(int, int);
     void displayWhiteSquare(int, int);
     void displayBlackSquare(int, int);
+    void displayBlueCircle(int, int);
 };
 
 #endif //LIB2_LIBRARY_H
