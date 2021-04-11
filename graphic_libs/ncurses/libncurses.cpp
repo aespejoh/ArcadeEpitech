@@ -13,6 +13,7 @@ extern "C" int destroy()
 }
 
 Libncurses::Libncurses() {
+    _name = "ncurses";
     displayMap.insert(std::make_pair('A', &Libncurses::printPlayer));
     displayMap.insert(std::make_pair('0', &Libncurses::printWall));
     displayMap.insert(std::make_pair('1', &Libncurses::printWall));
@@ -67,6 +68,9 @@ char Libncurses::getInput(bool input)
         return KEYUP;
     if (ch == KEY_DOWN)
         return KEYDOWN;
+    if (ch == KEY_ENTER || ch == 10 || ch == 13) {
+        return MOUSELEFT;
+    }
     return ch;
 }
 
@@ -76,15 +80,16 @@ void Libncurses::printLevel(array_t array, unsigned int height,
 {
     int f = 0;
     int s = 0;
+    erase();
 
-    if (LINES <= height || COLS <= width) {
+    /*if (LINES <= height || COLS <= width) {
         while (LINES <= height || COLS <= width) {
             erase();
             mvprintw(LINES / 2, COLS / 2, "Invalid Size");
             refresh();
         }
         erase();
-    }
+    }*/
     for (std::vector<char> line : array) {
         for (char pixel : line) {
             auto it = displayMap.find(pixel);
@@ -126,7 +131,26 @@ void Libncurses::printFood(int x, int y)
     mvprintw(x, y, "%c", FOOD);
 }
 
-void Libncurses::initMenu() {
+void Libncurses::initMenu()
+{
+    mvprintw(LINES / 4, COLS / 3, " _______  _______  _______  _______  ______   _______ ");
+    mvprintw(LINES / 4 + 1, COLS / 3, "(  ___  )(  ____ )(  ____ \\(  ___  )(  __  \\ (  ____ \\");
+    mvprintw(LINES / 4 + 2, COLS / 3, "| (   ) || (    )|| (    \\/| (   ) || (  \\  )| (    \\/");
+    mvprintw(LINES / 4 + 3, COLS / 3, "|  ___  ||     __)| |      |  ___  || |   | ||  __)    ");
+    mvprintw(LINES / 4 + 4, COLS / 3, "| (   ) || (\\ (   | |      | (   ) || |   ) || (      ");
+    mvprintw(LINES / 4 + 5, COLS / 3, "| )   ( || ) \\ \\__| (____/\\| )   ( || (__/  )| (____/\\ ");
+    mvprintw(LINES / 4 + 6, COLS / 3, "|/     \\||/   \\__/(_______/|/     \\|(______/ (_______/");
+    mvprintw(LINES / 2 + 1, COLS / 3 + 3, "USERNAME:");
+    mvprintw(LINES / 2 + 2, COLS / 3 + 3, "GAME:");
+    mvprintw(LINES / 2 + 3, COLS / 3 + 3, "LIBRARY:");
+    mvprintw(LINES / 2 + 9, COLS / 2 - 20, "Press Enter to start playing");
+}
+
+void Libncurses::printInfo(std::string name, std::string lib, std::string game)
+{
+    mvprintw(LINES / 2 + 2, COLS / 3 + 3, name.c_str());
+    mvprintw(LINES / 2 + 2, COLS / 2, lib.c_str());
+    mvprintw(LINES / 2 + 3, COLS / 2, game.c_str());
 
 }
 
@@ -139,6 +163,6 @@ std::string Libncurses::getUsername()
     return std::string();
 }
 
-void Libncurses::printInfo(std::string, std::string, std::string)
+void Libncurses::clearScreen()
 {
 }
