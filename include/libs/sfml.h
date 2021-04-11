@@ -14,6 +14,8 @@
 #define BACKGROUND_PATH "./resources/images/b4638aa66c9882cbb725d1adf0fed6b0.jpg"
 #define FONTONE_PATH "./OpenSans-Bold.ttf"
 #define FONTTWO_PATH "./OpenSans-Bold.ttf"
+#define WIN_H 768
+#define WIN_W 1366
 
 class LibSFML : public IDisplayModule {
     typedef void (LibSFML::*fnc_ptr)(int x, int y);
@@ -47,6 +49,9 @@ class LibSFML : public IDisplayModule {
         sf::Font _fontOne;
         sf::Font _fontTwo;
         sf::Text _username_txt;
+        sf::Text _lib_txt;
+        sf::Text _game_txt;
+        sf::Text _title;
     //void init(const array_t& array);
 };
 

@@ -31,8 +31,8 @@ class IGame {
         virtual void put(unsigned int y, unsigned int x, char item) = 0;
         virtual Player* getPlayer() {return _player;};
         virtual bool isGameOver() const = 0;
-
     protected:
+        std::string _name;
         typedef struct point {
             int x;
             int y;

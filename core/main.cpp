@@ -19,7 +19,7 @@ int main(int ac, char **av)
     try {
         int i;
         Core core(av[1]);
-        core.gameLoop();
+        core.mainLoop();
     } catch (MainException &exception) {
         std::cout << "Error: " << exception.what();
         return 84;
