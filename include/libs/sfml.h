@@ -20,7 +20,7 @@ class LibSFML : public IDisplayModule {
     typedef std::map<char, fnc_ptr> map_t;
     public:
         LibSFML();
-        ~LibSFML() override = default;
+        ~LibSFML() override;
         bool isActive() override;
         void refresh() override;
         char getInput(bool) override;
@@ -29,6 +29,7 @@ class LibSFML : public IDisplayModule {
         void initMenu() override;
         bool getQuit() override;
     private:
+        char manageMenu(sf::Event);
         void init() override;
         void stop() override;
         const std::string &getName() const override;
@@ -45,6 +46,7 @@ class LibSFML : public IDisplayModule {
         sf::Sprite _background;
         sf::Font _fontOne;
         sf::Font _fontTwo;
+        sf::Text _username_txt;
     //void init(const array_t& array);
 };
 

@@ -43,7 +43,11 @@ char LibSFML::getInput(bool input)
     while (_window->pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             _window->close();
-            _quit = false;
+            _quit = true;
+            return '\0';
+        }
+        if (input) {
+            manageMenu(event);
             return '\0';
         }
         if (event.type == sf::Event::KeyPressed) {
@@ -61,6 +65,7 @@ char LibSFML::getInput(bool input)
                 return 'd';
         }
     }
+    return '\0';
 }
 
 void LibSFML::printLevel(array_t array, unsigned int height, unsigned int width)
@@ -99,6 +104,9 @@ LibSFML::LibSFML()
     _background.setTexture(_background_image);
     _fontOne.loadFromFile(FONTONE_PATH);
     _fontTwo.loadFromFile(FONTTWO_PATH);
+    _username_txt.setFont(_fontOne);
+    _username_txt.setCharacterSize(50);
+    _username_txt.setPosition(0,0);
 }
 
 void LibSFML::drawBlackSquare(int x, int y)
@@ -139,6 +147,8 @@ void LibSFML::drawBlueCircle(int x, int y)
 
 void LibSFML::initMenu()
 {
+    _window->draw(_background);
+    _window->draw(_username_txt);
 
 }
 
@@ -158,4 +168,20 @@ void LibSFML::printInfo(std::string, std::string, std::string)
 
 void LibSFML::clearScreen()
 {
+}
+
+LibSFML::~LibSFML()
+{
+
+}
+
+char LibSFML::manageMenu(sf::Event event)
+{
+    if (event.type == sf::Event::TextEntered) {
+        if (event.text.unicode < 128) {
+            _username += static_cast<char>(event.text.unicode);
+            std::cout << _username << std::endl;
+            _username_txt.setString(_username);
+        }
+    }
 }
